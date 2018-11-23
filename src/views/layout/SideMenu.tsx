@@ -45,10 +45,9 @@ class SideMenu extends React.Component<Iprops, Istate> {
                     theme="dark"
                     inlineCollapsed={this.state.collapsed}
                 >
-                    <Menu.Item key="home">
-                        <Link to={"/"}>
+                    <Menu.Item key="主页">
+                        <Link to={"/home"}>
                             <Icon type="pie-chart"/>
-
                             <span>首页</span>
                         </Link>
                     </Menu.Item>
@@ -71,7 +70,7 @@ class SideMenu extends React.Component<Iprops, Istate> {
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="info">
-                        <Link to={"/info"}>
+                        <Link to={"/infoPush"}>
                             <Icon type="inbox"/>
                             <span>信息推送</span>
                         </Link>

@@ -14,7 +14,7 @@ class BannerManage extends React.Component<Iprops> {
         const {classes} = this.props;
         return (
             <div className={classes.BannerManage}>
-                BannerManage
+                图片管理
             </div>
         );
     }
