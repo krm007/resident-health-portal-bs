@@ -6,9 +6,12 @@ import {Route, RouteProps, Switch} from "react-router";
 import headIcon from "../../images/head.png"
 import BannerManage from "../bannerManage/BannerManage";
 import Home from "../home/Home";
+import Appointment from "../appointment/Appointment";
 import InfoPush from "../infoPush/InfoPush";
 import SideMenu from "./SideMenu";
 import BreadCrumb from "./BreadCrumb";
+import HospitalDictionary from "../MedicalResource/HospitalDictionary";
+import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
 
 const {Header, Sider, Content} = Layout;
 const styles = (theme: Theme) => createStyles<"Layout" | "header" | "content" | "userbox">({
@@ -140,6 +143,9 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                 <Switch>
                                     <Route<RouteProps> exact={true} path={"/home"} component={Home}/>
                                     <Route<RouteProps> path={"/bannerManage"} component={BannerManage}/>
+                                    <Route<RouteProps> path={"/appointment/number"} component={Appointment}/>
+                                    <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
+                                    <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
                                 </Switch>
                             </div>
