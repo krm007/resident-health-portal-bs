@@ -5,7 +5,7 @@ import * as React from "react";
 import {Link} from "react-router-dom";
 import logo from '../../logo.svg'
 
-// const SubMenu = Menu.SubMenu;
+const SubMenu = Menu.SubMenu;
 const styles = (theme: Theme) => createStyles<"menu" | "logoCard">({
     logoCard: {
         float: "left",
@@ -57,38 +57,58 @@ class SideMenu extends React.Component<Iprops, Istate> {
                             <span>banner管理</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="appointment">
-                        <Link to={"/appointment"}>
-                            <Icon type="inbox"/>
-                            <span>预约挂号管理</span>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="medicalLib">
-                        <Link to={"/medicalLib"}>
-                            <Icon type="inbox"/>
-                            <span>医疗资源字典</span>
-                        </Link>
-                    </Menu.Item>
+                    <SubMenu key="appointment" title={
+                        <span>
+                        <Icon type="inbox"/>
+                        <span>预约挂号管理</span>
+                        </span>
+                    }>
+                        <Menu.Item key="number">
+                            <Link to={"/appointment/number"}>
+                                <span>号源管理</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu key="medicalLib" title={
+                        <span>
+                        <Icon type="inbox"/>
+                        <span>医疗资源字典</span>
+                        </span>
+                    }>
+                        <Menu.Item key="hospitalLib">
+                            <Link to={"/medicalLib/hospitalLib"}>
+                                <span>医院字典</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="doctor">
+                            <Link to={"/medicalLib/doctorLib"}>
+                                <span>医生字典</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                     <Menu.Item key="info">
                         <Link to={"/infoPush"}>
                             <Icon type="inbox"/>
                             <span>信息推送</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="user">
-                        <Link to={"/user"}>
-                            <Icon type="inbox"/>
-                            <span>用户管理</span>
-                        </Link>
-                    </Menu.Item>
-                    {/*<SubMenu key="sub2" title={<span><Icon type="appstore" /><span>Navigation Two</span></span>}>*/}
-                    {/*<Menu.Item key="9">Option 9</Menu.Item>*/}
-                    {/*<Menu.Item key="10">Option 10</Menu.Item>*/}
-                    {/*<SubMenu key="sub3" title="Submenu">*/}
-                    {/*<Menu.Item key="11">Option 11</Menu.Item>*/}
-                    {/*<Menu.Item key="12">Option 12</Menu.Item>*/}
-                    {/*</SubMenu>*/}
-                    {/*</SubMenu>*/}
+                    <SubMenu key="user" title={
+                        <span>
+                        <Icon type="user"/>
+                        <span>用户管理</span>
+                        </span>
+                    }>
+                        <Menu.Item key="realName">
+                            <Link to={"/user/realName"}>
+                                <span>实名认证</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="blacklist">
+                            <Link to={"/user/blacklist"}>
+                                <span>黑名单管理</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                 </Menu>
             </div>
         );

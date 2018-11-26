@@ -2,8 +2,13 @@ const breadcrumbNameMap = {
     '/home': '首页',
     '/bannerManage': 'banner管理',
     '/appointment': '预约挂号管理',
+    '/appointment/number':"号源管理",
     '/medicalLib': '医疗资源字典',
+    '/medicalLib/hospitalLib':'医院字典',
+    '/medicalLib/doctorLib':'医生字典',
     '/infoPush': '信息推送',
-    '/user': '用户管理'
+    '/user': '用户管理',
+    '/user/realName':'实名认证',
+    '/user/blacklist':'黑名单管理'
 };
 export  {breadcrumbNameMap}

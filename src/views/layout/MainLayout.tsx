@@ -77,6 +77,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
 
     public render() {
         const {classes} = this.props;
+        // 用户头像下拉选项
         const menu = (
             <Menu>
                 <Menu.Item>
