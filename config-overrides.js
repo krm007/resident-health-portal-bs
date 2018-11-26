@@ -1,19 +1,18 @@
-import tsImportPluginFactory from "ts-import-plugin";
-import { getLoader } from "react-app-rewired";
-import rewireLess from "react-app-rewire-less";
-
+const tsImportPluginFactory = require("ts-import-plugin");
+const { getLoader } = require("react-app-rewired");
+const rewireLess = require("react-app-rewire-less");
 /**
  * @author sunshixiong
  * 此配置主要使用antd提供的react-app-rewired实现create-react-app自定义
  * 配置，使用ts-import-plugin实现包的按需加载，import的时候就可以用{xxx}导入
  */
-module.exports = (config, env) => {
+module.exports = function override(config, env) {
   const tsLoader = getLoader(
-    config.module.rules,
-    rule =>
-      rule.loader &&
-      typeof rule.loader === "string" &&
-      rule.loader.includes("ts-loader")
+      config.module.rules,
+      rule =>
+          rule.loader &&
+          typeof rule.loader === "string" &&
+          rule.loader.includes("ts-loader")
   );
 
   tsLoader.options = {
