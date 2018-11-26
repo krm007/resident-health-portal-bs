@@ -4,12 +4,11 @@ import {Avatar,Badge, Button, Dropdown, Icon, Layout, Menu} from 'antd';
 import * as React from "react";
 import {Route, RouteProps, Switch} from "react-router";
 import headIcon from "../../images/head.png"
-import BannerManage from "../bannerManage/BannerManage";
 import Home from "../home/Home";
 import Appointment from "../appointment/Appointment";
-import InfoPush from "../infoPush/InfoPush";
 import SideMenu from "./SideMenu";
 import BreadCrumb from "./BreadCrumb";
+import { BannerManage, InfoPush, NosourceManagement } from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
 
@@ -147,6 +146,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
+                                    <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement} />
                                 </Switch>
                             </div>
 
