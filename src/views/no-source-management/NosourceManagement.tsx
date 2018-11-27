@@ -20,6 +20,10 @@ interface Iprops extends WithStyles<typeof styles>, FormComponentProps {}
 interface Istates {
   data: Sources[];
 }
+/**
+ * @author sunshixong
+ * @description 号源管理
+ */
 class NosourceManagement extends React.Component<Iprops, Istates> {
   private dom: HTMLDivElement | null;
   private tableColums: Array<ColumnProps<Sources>> = [
@@ -103,7 +107,9 @@ class NosourceManagement extends React.Component<Iprops, Istates> {
             </Form.Item>
           </Row>
           <div className={classes.amAndPm}>
-            <Radio.Group>
+            <Radio.Group onChange={e => {
+              alert("ss")
+            }}>
               <Radio.Button value="am">只看上午</Radio.Button>
               <Radio.Button value="pm">只看下午</Radio.Button>
             </Radio.Group>
