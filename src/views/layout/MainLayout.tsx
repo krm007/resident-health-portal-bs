@@ -1,16 +1,20 @@
-import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
-import {WithStyles} from "@material-ui/core/styles/withStyles";
-import {Avatar,Badge, Button, Dropdown, Icon, Layout, Menu} from 'antd';
+import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
+import { WithStyles } from "@material-ui/core/styles/withStyles";
+import { Avatar, Badge, Button, Dropdown, Icon, Layout, Menu } from "antd";
 import * as React from "react";
-import {Route, RouteProps, Switch} from "react-router";
-
+import { Route, RouteProps, Switch } from "react-router";
+import headIcon from "../../images/head.png";
+import Home from "../home/Home";
 import SideMenu from "./SideMenu";
 import BreadCrumb from "./BreadCrumb";
-import { BannerManage, InfoPush, NosourceManagement } from "../../router/RouterComponent";
+import {
+  BannerManage,
+  Blacklist,
+  InfoPush,
+  NosourceManagement
+} from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
-import headIcon from '../../images/head.png';
-import Home from '../home/Home';
 import service from '../../axios/Service';
 // @ts-ignore
 import Qs from 'qs'
@@ -53,13 +57,12 @@ const styles = (theme: Theme) =>
         },
     });
 
-interface Iprops extends WithStyles<typeof styles> {
-}
+interface Iprops extends WithStyles<typeof styles> {}
 
 interface Istate {
-    collapsed: boolean;
-    logined: boolean;
-    userId: number;
+  collapsed: boolean;
+  logined: boolean;
+  userId: number;
 }
 
 class MainLayout extends React.Component<Iprops, Istate> {
@@ -72,10 +75,9 @@ class MainLayout extends React.Component<Iprops, Istate> {
         }
     }
 
-    public componentWillMount() {
-        // 请求登陆状态
-
-    }
+  public componentWillMount() {
+    // 请求登陆状态
+  }
 
     public toggle = () => {
         this.setState({
@@ -158,6 +160,10 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
                                     <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement} />
+                                    <Route<RouteProps>
+                                        path={"/user/blacklist"}
+                                        component={Blacklist}
+                                    />
                                 </Switch>
                             </div>
 

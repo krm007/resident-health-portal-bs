@@ -13,3 +13,7 @@ export const InfoPush = loadable({
   loading: Loading,
   loader: () => import("../views/infoPush/InfoPushList")
 });
+export const Blacklist = loadable({
+  loading: Loading,
+  loader: () => import("../views/blacklist/Blacklist")
+});

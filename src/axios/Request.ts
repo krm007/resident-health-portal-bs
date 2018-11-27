@@ -2,7 +2,7 @@
 // 获取日志列表
 import service from "./Service";
 import { RestPage } from "../type/CommonData";
-import { Sources } from "../type/SourcesData";
+import { BlacklistData, Sources } from "../type/SourcesData";
 
 export function getLogList() {
   // return service.get("");
@@ -52,4 +52,10 @@ export function getDocDic() {
  */
 export function getSources() {
   return service.get<RestPage<Sources>>("/sources");
+}
+/**
+ * 获取黑名单列表
+ */
+export function getBlacklist() {
+  return service.get<RestPage<BlacklistData>>("/blackLists")
 }

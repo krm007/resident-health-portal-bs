@@ -24,7 +24,7 @@ class LineChart extends React.Component<Iprops> {
     public render() {
         const {classes} = this.props;
         return (
-            <div className={classes.root}><br/>
+            <div className={classes.root}>
                 <Tabs onChange={callback} type="card">
                     <TabPane tab="按月统计" key="1">
                         <ChartMonth />
