@@ -9,17 +9,21 @@ const styles = (theme: Theme) => createStyles({
     root: {},
     fontNum:{
         fontSize:"30px",
-        fontWeight:900
+        fontWeight:900,
+        color:"#fff"
+    },
+    common:{
+        backgroundColor:"rgb(82,185,138)"
     },
     fontStyle:{
         fontSize:"8px",
-        color:"rgb(69,182,171)",
+        color:"#fff",
         fontWeight:600
     },
     cardStyle:{
         "& .ant-card-body": {
             padding: "10px 20px",
-
+            extend:"common"
         },
         "& .ant-card-head": {
             "& .ant-card-extra": {
@@ -33,6 +37,8 @@ const styles = (theme: Theme) => createStyles({
             borderBottom: 0,
             minHeight: 20,
             padding: "0 20px",
+            color:"#fff",
+            extend:"common"
         },
         "& .ant-list-item-content":{
             minWidth:0

@@ -10,7 +10,31 @@ import LineChart from "./LineChart";
 
 
 const styles = (theme: Theme) => createStyles({
-    home: {},
+    root:{},
+    homeOne: {
+        "& .ant-card-body":{
+            backgroundColor:"rgb(82,185,138)"
+        },
+        "& .ant-card-head":{
+            backgroundColor:"rgb(82,185,138)"
+        }
+    },
+    homeTwo: {
+        "& .ant-card-body":{
+            backgroundColor:"rgb(60,142,217)"
+        },
+        "& .ant-card-head":{
+            backgroundColor:"rgb(60,142,217)"
+        }
+    },
+    homeThree: {
+        "& .ant-card-body":{
+            backgroundColor:"rgb(242,123,118)"
+        },
+        "& .ant-card-head":{
+            backgroundColor:"rgb(242,123,118)"
+        }
+    },
     firstInfo: {
         width: "100%",
         height: "45px",
@@ -66,14 +90,14 @@ class Home extends React.Component<Iprops, Istate> {
                         <Col span={4}>昨日预约量：371</Col>
                     </Row>
                 </div>
-                <LineChart />
                 <div className={classes.secondCard}>
                     <Row type="flex" justify="space-between" align="middle" gutter={16}>
-                        <SmallCard/>
-                        <SmallCard/>
-                        <SmallCard/>
+                        <SmallCard classes={{root:classes.homeOne}}/>
+                        <SmallCard classes={{root:classes.homeTwo}}/>
+                        <SmallCard classes={{root:classes.homeThree}}/>
                     </Row>
                 </div>
+                <LineChart />
                 <div><span style={{paddingLeft: "10px"}}>登录日志</span></div>
                 <br/>
                 <div className={classes.thirdLog}>
