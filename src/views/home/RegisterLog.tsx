@@ -2,7 +2,7 @@ import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
 import {List, Avatar} from 'antd';
-import {LogList} from "../../type/CommonData";
+import {LogList} from "../../type/HospitalData";
 // import reqwest from 'reqwest';
 // import InfiniteScroll from 'react-infinite-scroller';
 
