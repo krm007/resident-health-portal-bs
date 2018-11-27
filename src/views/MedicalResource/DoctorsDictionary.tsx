@@ -9,10 +9,6 @@ const Search = Input.Search;
 
 const styles = (theme: Theme) => createStyles({
     root: {
-        "& .ant-table-thead > tr > th":{
-            color:"#fff",
-            backgroundColor: "rgb(24,144,255)",
-        }
     },
 });
 interface Istate{
@@ -85,7 +81,7 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
                     <Button type="primary" style={{float:"left",marginLeft:"20px",backgroundColor:"rgb(82,185,138)",borderColor:"rgb(82,185,138)"}}>新增</Button>
                 </div>
                 <br/>
-                <Table columns={columns} dataSource={this.state.data} />
+                <Table columns={columns} size={"middle"} dataSource={this.state.data} />
             </div>);
     }
 }
