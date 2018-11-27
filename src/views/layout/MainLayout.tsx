@@ -5,7 +5,6 @@ import * as React from "react";
 import {Route, RouteProps, Switch} from "react-router";
 import headIcon from "../../images/head.png"
 import Home from "../home/Home";
-import Appointment from "../appointment/Appointment";
 import SideMenu from "./SideMenu";
 import BreadCrumb from "./BreadCrumb";
 import { BannerManage, InfoPush, NosourceManagement } from "../../router/RouterComponent";
@@ -142,7 +141,6 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                 <Switch>
                                     <Route<RouteProps> exact={true} path={"/home"} component={Home}/>
                                     <Route<RouteProps> path={"/bannerManage"} component={BannerManage}/>
-                                    <Route<RouteProps> path={"/appointment/number"} component={Appointment}/>
                                     <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
