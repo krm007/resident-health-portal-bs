@@ -3,7 +3,7 @@ import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
 import { Input,Button,Table, Divider} from 'antd';
 import {getDocDic} from "../../axios/Request";
-import {DocDic} from "../../type/CommonData";
+import {DocDic} from "../../type/HospitalData";
 
 const Search = Input.Search;
 

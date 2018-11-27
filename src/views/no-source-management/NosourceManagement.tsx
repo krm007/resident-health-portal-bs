@@ -1,24 +1,79 @@
 import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import { Button, DatePicker, Form, Radio, Row, Select } from "antd";
+import { Button, DatePicker, Form, Radio, Row, Select, Table } from "antd";
 import { FormComponentProps } from "antd/lib/form";
+import { Sources } from "../../type/SourcesData";
+import { getSources } from "../../axios/Request";
+import { ColumnProps } from "antd/lib/table";
 
 const styles = (theme: Theme) =>
-  createStyles<"root">({
-    root: {}
+  createStyles<"root" | "amAndPm">({
+    root: {},
+    amAndPm: {
+      paddingTop: "20px",
+      paddingBottom: "10px"
+    }
   });
 
 interface Iprops extends WithStyles<typeof styles>, FormComponentProps {}
-
-class NosourceManagement extends React.Component<Iprops> {
+interface Istates {
+  data: Sources[];
+}
+class NosourceManagement extends React.Component<Iprops, Istates> {
   private dom: HTMLDivElement | null;
+  private tableColums: Array<ColumnProps<Sources>> = [
+    {
+      title: "时间",
+      dataIndex: "time"
+    },
+    {
+      title: "时间段",
+      dataIndex: "gradle"
+    },
+    {
+      title: "所属医院",
+      dataIndex: "hospitalName"
+    },
+    {
+      title: "号源总数",
+      dataIndex: "total"
+    },
+    {
+      title: "已预约数",
+      dataIndex: "appointed"
+    },
+    {
+      title: "剩余号数",
+      render: (text, record, index) => {
+        if (record.total && record.appointed) {
+          return record.total - record.appointed;
+        } else {
+          return "";
+        }
+      }
+    }
+  ];
+  constructor(props: Iprops) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
   public searchData = (e: React.FormEvent) => {
     e.preventDefault();
     // @ts-ignore
     console.log(this.dom);
     console.log(super.setState({}));
   };
+  public UNSAFE_componentWillMount(): void {
+    getSources().then(value => {
+      this.setState({
+        data: value.data._embedded.sources
+      });
+    });
+  }
+
   public render() {
     const { classes } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -29,8 +84,8 @@ class NosourceManagement extends React.Component<Iprops> {
           this.dom = instance;
         }}
       >
-        <Row>
-          <Form layout={"inline"} onSubmit={this.searchData}>
+        <Form layout={"inline"} onSubmit={this.searchData}>
+          <Row>
             <Form.Item label={"时间"}>
               {getFieldDecorator("data")(<DatePicker />)}
             </Form.Item>
@@ -46,14 +101,15 @@ class NosourceManagement extends React.Component<Iprops> {
                 查询
               </Button>
             </Form.Item>
-          </Form>
-        </Row>
-        <div>
-          <Radio.Group>
-            <Radio.Button value="am">只看上午</Radio.Button>
-            <Radio.Button value="pm">只看下午</Radio.Button>
-          </Radio.Group>
-        </div>
+          </Row>
+          <div className={classes.amAndPm}>
+            <Radio.Group>
+              <Radio.Button value="am">只看上午</Radio.Button>
+              <Radio.Button value="pm">只看下午</Radio.Button>
+            </Radio.Group>
+          </div>
+        </Form>
+        <Table size={"middle"} dataSource={this.state.data} columns={this.tableColums} />
       </div>
     );
   }
