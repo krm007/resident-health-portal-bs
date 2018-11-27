@@ -1,6 +1,7 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
+// @ts-ignore
 import *as echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';// 引入折线图
 import 'echarts/lib/component/tooltip';// 引入提示框和标题组件

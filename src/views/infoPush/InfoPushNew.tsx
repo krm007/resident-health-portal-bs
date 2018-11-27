@@ -38,15 +38,6 @@ class InfoPushNew extends React.Component<Iprops> {
     }
 
     public componentDidMount =()=> {
-        // ClassicEditor.create(document.querySelector('#editor'), {
-        //     toolbar: [ 'bold', 'italic', 'link','bulletedList', 'numberedList', 'blockQuote','tableresize'],
-        //
-        // }).then((editor:any) =>{
-        //
-        // })
-        //     .catch((error: any) => {
-        //         console.log(error);
-        //     });
 
     };
 

@@ -3,23 +3,14 @@ import {WithStyles} from "@material-ui/core/styles/withStyles";
 import {Avatar,Badge, Button, Dropdown, Icon, Layout, Menu} from 'antd';
 import * as React from "react";
 import {Route, RouteProps, Switch} from "react-router";
-import headIcon from "../../images/head.png"
-import Home from "../home/Home";
+
 import SideMenu from "./SideMenu";
 import BreadCrumb from "./BreadCrumb";
 import { BannerManage, InfoPush, NosourceManagement } from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
-import {WithStyles} from '@material-ui/core/styles/withStyles';
-import {Avatar, Badge, Button, Dropdown, Icon, Layout, Menu} from 'antd';
-import * as React from 'react';
-import {Route, RouteProps, Switch} from 'react-router';
 import headIcon from '../../images/head.png';
-import BannerManage from '../bannerManage/BannerManage';
 import Home from '../home/Home';
-import InfoPush from '../infoPush/InfoPushNew';
-import SideMenu from './SideMenu';
-import BreadCrumb from './BreadCrumb';
 import service from '../../axios/Service';
 // @ts-ignore
 import Qs from 'qs'

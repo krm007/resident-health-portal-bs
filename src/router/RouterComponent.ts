@@ -11,5 +11,5 @@ export const BannerManage = loadable({
 });
 export const InfoPush = loadable({
   loading: Loading,
-  loader: () => import("../views/infoPush/InfoPush")
+  loader: () => import("../views/infoPush/InfoPushList")
 });
