@@ -1,6 +1,6 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
-import {Col, Row} from 'antd';
+import { Row} from 'antd';
 import * as React from "react";
 import SmallCard from "./SmallCard";
 import RegisterLog from "./RegisterLog";
@@ -35,13 +35,13 @@ const styles = (theme: Theme) => createStyles({
             backgroundColor:"rgb(242,123,118)"
         }
     },
-    firstInfo: {
-        width: "100%",
-        height: "45px",
-        margin: "auto",
-        borderRadius: "3px",
-        backgroundColor: "rgb(69,138,182)",
-    },
+    // firstInfo: {
+    //     width: "100%",
+    //     height: "45px",
+    //     margin: "auto",
+    //     borderRadius: "3px",
+    //     backgroundColor: "rgb(69,138,182)",
+    // },
     secondCard: {
         width: "100%",
         height: "130px",
@@ -81,15 +81,15 @@ class Home extends React.Component<Iprops, Istate> {
         const {classes} = this.props;
         return (
             <div>
-                <div className={classes.firstInfo}>
-                    <Row type="flex" justify="start" align="middle"
-                         style={{lineHeight: "45px", fontSize: "10px", color: "#fff"}}>
-                        <Col span={4} offset={1}>网站总访问量：596,421</Col>
-                        <Col span={4}>网站总预约量：135,778</Col>
-                        <Col span={4}>昨日访问量：588</Col>
-                        <Col span={4}>昨日预约量：371</Col>
-                    </Row>
-                </div>
+                {/*<div className={classes.firstInfo}>*/}
+                    {/*<Row type="flex" justify="start" align="middle"*/}
+                         {/*style={{lineHeight: "45px", fontSize: "10px", color: "#fff"}}>*/}
+                        {/*<Col span={4} offset={1}>网站总访问量：596,421</Col>*/}
+                        {/*<Col span={4}>网站总预约量：135,778</Col>*/}
+                        {/*<Col span={4}>昨日访问量：588</Col>*/}
+                        {/*<Col span={4}>昨日预约量：371</Col>*/}
+                    {/*</Row>*/}
+                {/*</div>*/}
                 <div className={classes.secondCard}>
                     <Row type="flex" justify="space-between" align="middle" gutter={16}>
                         <SmallCard classes={{root:classes.homeOne}}/>

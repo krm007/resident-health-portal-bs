@@ -10,6 +10,9 @@ import BreadCrumb from "./BreadCrumb";
 import { BannerManage, InfoPush, NosourceManagement } from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
+import DocDetails from "../MedicalResource/DocDetails";
+import AddHos from "../MedicalResource/AddHos";
+import AddDoc from "../MedicalResource/AddDoc";
 
 const {Header, Sider, Content} = Layout;
 const styles = (theme: Theme) => createStyles<"Layout" | "header" | "content" | "userbox">({
@@ -143,6 +146,9 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/bannerManage"} component={BannerManage}/>
                                     <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
+                                    <Route<RouteProps> path={"/addHos"} component={AddHos}/>
+                                    <Route<RouteProps> path={"/addDoc"} component={AddDoc}/>
+                                    <Route<RouteProps> path={"/docDetails"} component={DocDetails}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
                                     <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement} />
                                 </Switch>
