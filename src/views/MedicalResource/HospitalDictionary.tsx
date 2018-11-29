@@ -4,12 +4,18 @@ import * as React from "react";
 import { Input, Button, Table, Divider } from "antd";
 import { getHosDic } from "../../axios/Request";
 import { HosDic } from "../../type/HospitalData";
+import {Link} from "react-router-dom";
 
 const Search = Input.Search;
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {}
+const styles = (theme: Theme) => createStyles({
+      root: {},
+      addButton:{
+          float:"left",
+          marginLeft:"20px",
+          backgroundColor:"rgb(82,185,138)",
+          borderColor:"rgb(82,185,138)"
+      }
   });
 interface Istate {
   data: HosDic[];
@@ -26,14 +32,15 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
   }
 
   public componentWillMount() {
-    this.setState({
-      data: getHosDic()
-    });
-    // getHosDic().then(value => {
-    //     this.setState({
-    //         data:value.data
-    //     })
+    // this.setState({
+    //   data: getHosDic()
     // });
+    getHosDic().then(value => {
+        this.setState({
+            data:value.data.content
+        })
+
+    });
   }
 
   public render() {
@@ -50,18 +57,18 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
       },
       {
         title: "医院类型",
-        dataIndex: "type",
-        key: "type"
+        dataIndex: "category",
+        key: "category"
       },
       {
         title: "医院地址",
-        dataIndex: "address",
-        key: "address"
+        dataIndex: "location",
+        key: "location"
       },
       {
         title: "电话",
-        key: "tel",
-        dataIndex: "tel"
+        key: "phone",
+        dataIndex: "phone"
       },
       {
         title: "操作",
@@ -86,20 +93,8 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
             enterButton={true}
             style={{ width: "27%", float: "left" }}
           />
-          <Button type="primary" style={{ float: "left", marginLeft: "20px" }}>
-            批量导入
-          </Button>
-          <Button
-            type="primary"
-            style={{
-              float: "left",
-              marginLeft: "20px",
-              backgroundColor: "rgb(82,185,138)",
-              borderColor: "rgb(82,185,138)"
-            }}
-          >
-            新增
-          </Button>
+          <Button type="primary" style={{ float: "left", marginLeft: "20px" }}>批量导入</Button>
+            <Button type="primary" className={classes.addButton}><Link to={"/addHos"}>新增</Link></Button>
         </div>
         <br />
         <Table columns={columns} size={"middle"} dataSource={this.state.data} />

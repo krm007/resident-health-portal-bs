@@ -4,12 +4,19 @@ import * as React from "react";
 import { Input,Button,Table, Divider} from 'antd';
 import {getDocDic} from "../../axios/Request";
 import {DocDic} from "../../type/HospitalData";
+import {Link} from "react-router-dom";
 
 const Search = Input.Search;
 
 const styles = (theme: Theme) => createStyles({
     root: {
     },
+    addButton:{
+        float:"left",
+        marginLeft:"20px",
+        backgroundColor:"rgb(82,185,138)",
+        borderColor:"rgb(82,185,138)"
+    }
 });
 interface Istate{
     data:DocDic[]
@@ -28,14 +35,11 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
     }
 
     public componentWillMount(){
-        this.setState({
-            data:getDocDic()
-        })
-        // getDocDic().then(value => {
-        //     this.setState({
-        //         data:value.data
-        //     })
-        // });
+        getDocDic().then(value => {
+            this.setState({
+                data:value.data.content
+            })
+        });
     }
 
     public render() {
@@ -45,26 +49,26 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
             key: 'name',
         }, {
             title: '职称',
-            dataIndex: 'level',
-            key: 'level',
+            dataIndex: 'title',
+            key: 'title',
         }, {
             title: '就职医院',
-            dataIndex: 'hospital',
-            key: 'hospital',
+            dataIndex: 'hospitalName',
+            key: 'hospitalName',
         }, {
             title: '所在科室',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'depart',
+            key: 'depart',
         }, {
             title: '操作',
             key: 'action',
             render: () => (
                 <span>
-                    <a href="javascript:;">详情</a>
+                    <Link to={"/docDetails"} >详情</Link>
                     <Divider type="vertical" />
                     <a href="javascript:;">停用</a>
                 </span>
-            ),
+            )
         }];
 
         const {classes} = this.props;
@@ -78,7 +82,7 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
                         style={{width: "27%",float:"left"}}
                     />
                     <Button type="primary" style={{float:"left",marginLeft:"20px"}}>批量导入</Button>
-                    <Button type="primary" style={{float:"left",marginLeft:"20px",backgroundColor:"rgb(82,185,138)",borderColor:"rgb(82,185,138)"}}>新增</Button>
+                    <Button type="primary" className={classes.addButton}><Link to={"/addDoc"}>新增</Link></Button>
                 </div>
                 <br/>
                 <Table columns={columns} size={"middle"} dataSource={this.state.data} />

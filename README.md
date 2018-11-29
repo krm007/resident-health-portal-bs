@@ -2313,7 +2313,7 @@ When you build the project, Create React App will place the `public` folder cont
 
     Paste that URL into your browser when the build is complete, and you will see your deployed app.
 
-Details are available in [this article.](https://zeit.co/blog/unlimited-static)
+DocDetails are available in [this article.](https://zeit.co/blog/unlimited-static)
 
 ### S3 and CloudFront
 

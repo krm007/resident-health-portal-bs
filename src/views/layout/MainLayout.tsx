@@ -16,6 +16,9 @@ import {
 } from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
+import DocDetails from "../MedicalResource/DocDetails";
+import AddHos from "../MedicalResource/AddHos";
+import AddDoc from "../MedicalResource/AddDoc";
 import service from '../../axios/Service';
 // @ts-ignore
 import Qs from 'qs'
@@ -79,6 +82,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
 
     public componentWillMount() {
         // 请求登陆状态
+
     }
 
     public toggle = () => {
@@ -160,6 +164,9 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/bannerManage"} component={BannerManage}/>
                                     <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
+                                    <Route<RouteProps> path={"/addHos"} component={AddHos}/>
+                                    <Route<RouteProps> path={"/addDoc"} component={AddDoc}/>
+                                    <Route<RouteProps> path={"/docDetails"} component={DocDetails}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
                                     <Route<RouteProps> path={"/infoPushNew"} component={InfoPushNew}/>
                                     <Route<RouteProps> path={"/infoPushEditor/:id?"} component={InfoPushNew}/>
