@@ -11,6 +11,7 @@ const breadcrumbNameMap = {
     '/docDetails':'医生字典 / 医生详情',
     '/infoPush': '信息推送',
     '/infoPushNew':'新建推送',
+    '/infoPushEditor':'编辑推送',
     '/infoPush/infoPushDetail':'推送详情',
     '/user': '用户管理',
     '/user/realName':'实名认证',

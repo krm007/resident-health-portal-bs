@@ -88,8 +88,8 @@ class Filter extends React.Component<Iprops, Istate> {
             selectedData: this.state.selectedData.concat(searchKey)
         });
     };
-    public showModal = () => {
-        this.props.history.push(`/infoPushNew`)
+    public addNew = () => {
+        this.props.history.push(`/infoPushNew/`)
     };
 
     public render() {
@@ -140,10 +140,8 @@ class Filter extends React.Component<Iprops, Istate> {
                             onSearch={value => this.handleSearch(value)}
                             enterButton={true}
                         />
-                        <Button type="primary" style={{verticalAlign: "top"}} onClick={this.showModal}>
-                            {/*<Link to={'/infoPushNew'}>*/}
+                        <Button type="primary" style={{verticalAlign: "top"}} onClick={this.addNew}>
                             新建推送
-                            {/*</Link>*/}
                         </Button>
                     </div>
                 </Form>

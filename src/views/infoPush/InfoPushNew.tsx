@@ -1,14 +1,19 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import {Form, Input, Select, Col, Row, Button} from "antd";
+import {Form, Input, Select, Col, Row, Button,message} from "antd";
 import {FormComponentProps} from "antd/lib/form";
 import {RouteComponentProps} from "react-router";
 // @ts-ignore
 import CKEditor from '@ckeditor/ckeditor5-react';
 // @ts-ignore
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import ImageCompressor from "image-compressor.js";
+import {OneList} from "../../type/MessageData";
+import {
+    addNew,
+    // addNew,
+    getInfoOneList
+} from "../../axios/Request";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -26,34 +31,55 @@ const styles = (theme: Theme) => createStyles<"InfoPushNew">({
 });
 
 interface Iprops extends WithStyles<typeof styles>, FormComponentProps, RouteComponentProps<any> {
-    text: string
+    text: string,
 }
 
+interface Istates {
+    oneList: OneList
+}
 
-class InfoPushNew extends React.Component<Iprops> {
+class InfoPushNew extends React.Component<Iprops, Istates> {
 
     constructor(props: Iprops) {
         super(props);
-
+        this.state = {
+            oneList: {}
+        }
     }
 
-    public componentDidMount = () => {
-
+    public componentWillMount = () => {
+        const id = this.props.match.params.id;
+        if (id) {// 有传值id
+            getInfoOneList(id).then(value => {
+                this.setState({
+                    oneList: value.data
+                })
+            })
+        }
     };
+
     public getData() {
         return window.editor
     }
+
     // 点击发送
     public handleSend = () => {
-
+        console.log(this.state.oneList)
     };
     // 点击保存
-    public handleSave=(value:any)=>{
-        console.log(value+","+this.getData())
+    public handleSave = (val: any) => {
+        const key = "content";
+        val[key] = this.getData();
+        addNew(val).then((value)=>{
+            console.log(value);
+            message.success("保存成功~但似乎有点儿不对劲")
+        })
     };
+
     public render() {
         const {classes} = this.props;
         const {getFieldDecorator} = this.props.form;
+        const footBar = (this.props.match.params.id) ? <div>you</div> : "";
         const formItemLayout = {
             labelCol: {
                 xs: {span: 1},
@@ -74,25 +100,24 @@ class InfoPushNew extends React.Component<Iprops> {
                                     e.preventDefault();
                                     this.props.form.validateFields((err, values) => {
                                         if (!err) {
-                                            console.log(values);
+                                            this.handleSave(values)
                                         }
                                     });
                                 }}
                             >
                                 <FormItem {...formItemLayout} label="标题" style={{marginBottom: 0}}>
                                     {getFieldDecorator('title', {
-                                        rules: [{message:'请填写标题！',required:true}],
+                                        initialValue: this.state.oneList.title,
+                                        rules: [{message: '请填写标题！', required: true}],
                                     })(
-                                        <div>
-                                            <Input style={{width: "300px", marginRight: "10px"}}/>
-                                            <span>标题长度25汉字之内，超出显示省略号</span>
-                                        </div>
+                                        <Input style={{width: "300px", marginRight: "10px"}}/>
                                     )}
+                                    <span>标题长度25汉字之内，超出显示省略号</span>
                                 </FormItem>
                                 <FormItem {...formItemLayout} label="类型">
-                                    {getFieldDecorator('type', {
-                                        initialValue: "1",
-                                        rules: [{required:true}],
+                                    {getFieldDecorator('secondType', {
+                                        initialValue: this.state.oneList.secondType,
+                                        rules: [{required: true}],
                                     })(
                                         <Select
                                             style={{width: 300}}
@@ -112,7 +137,7 @@ class InfoPushNew extends React.Component<Iprops> {
                                 <CKEditor
                                     editor={ClassicEditor}
                                     // 获取数据
-                                    data=""
+                                    data={this.state.oneList.content}
                                     config={{
                                         language: 'zh-cn',
                                         toolbar: ['undo', 'redo', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'blockQuote'],
@@ -125,12 +150,14 @@ class InfoPushNew extends React.Component<Iprops> {
 
                                     }}
                                     onChange={(event: any, editor: any) => {
-                                     window.editor = editor.getData();
+                                        window.editor = editor.getData();
                                     }}
                                 />
+
+                                {footBar}
                                 <FormItem {...formItemLayout} >
 
-                                    <Button htmlType="submit" type="primary" style={{marginRight:"20px"}}>保存</Button>
+                                    <Button htmlType="submit" type="primary" style={{marginRight: "20px"}}>保存</Button>
                                     <Button type="primary" onClick={this.handleSend}>发送</Button>
 
                                 </FormItem>
