@@ -39,13 +39,15 @@ class BreadCrumb extends React.Component<Iprops,Istate> {
         });
         const extraBreadcrumbItems = pathSnippets.map((_, index) => {
             const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-            return (
-                <Breadcrumb.Item key={url}>
-                    <Link to={url}>
-                        {breadcrumbNameMap[url]}
-                    </Link>
-                </Breadcrumb.Item>
-            );
+            if (breadcrumbNameMap[url]) {
+                return (
+                    <Breadcrumb.Item key={url}>
+                        <Link to={url}>{breadcrumbNameMap[url]}</Link>
+                    </Breadcrumb.Item>
+                );
+            } else {
+                return <div>{}</div>;
+            }
         });
         this.setState({
             breadcrumbItems: [(

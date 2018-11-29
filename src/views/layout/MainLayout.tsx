@@ -96,7 +96,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                     <p
                         onClick={event1 => {
                             service.post(
-                                '/loginByPhonePwd',
+                                '/login/loginByPhonePwd',
                                 Qs.stringify({
                                     phone: '13348916944',
                                     password: '1234',
@@ -162,6 +162,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
                                     <Route<RouteProps> path={"/infoPushNew"} component={InfoPushNew}/>
+                                    <Route<RouteProps> path={"/infoPushEditor/:id?"} component={InfoPushNew}/>
                                     <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement}/>
                                     <Route<RouteProps>
                                         path={"/user/blacklist"}

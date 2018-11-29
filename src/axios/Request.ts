@@ -3,6 +3,7 @@
 import service from "./Service";
 import { RestPage } from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
+import {PushList, OneList, AddNews} from "../type/MessageData";
 
 export function getLogList() {
   // return service.get("");
@@ -58,4 +59,24 @@ export function getSources() {
  */
 export function getBlacklist() {
   return service.get<RestPage<BlacklistData>>("/blackLists")
+}
+/*
+*
+* 获取推送列表*/
+export function getInfoPushList() {
+    return service.get<RestPage<PushList>>("/news")
+}
+/*
+*
+* 获取一条推送列表*/
+export function getInfoOneList(id:any) {
+    return service.get<OneList>(`/news/${id}`)
+}
+// 新增一条推送
+export function addNew(data:AddNews) {
+    return service.post("/news",data)
+}
+// 删除一条推送
+export function delateNew(id:string) {
+  return service.delete(`/news/${id}`)
 }

@@ -7,7 +7,14 @@ import {
     Table,
     Radio,
     Divider,
+    Button,
+    Popconfirm,
+    message
 } from "antd";
+import {delateNew, getInfoPushList} from "../../axios/Request";
+import {PushList} from "../../type/MessageData";
+import {ColumnProps} from "antd/lib/table";
+import {RouteComponentProps} from "react-router";
 
 const styles = (theme: Theme) => createStyles<"InfoPushList" | "filter" | "listContent" | "boundery">({
     InfoPushList: {
@@ -29,34 +36,75 @@ const styles = (theme: Theme) => createStyles<"InfoPushList" | "filter" | "listC
     }
 });
 
-const data: any = [];
-for (let i = 1; i <= 6; i++) {
 
-    data.push({
-        index: i,
-        // @ts-ignore
-        key: i,
-        // @ts-ignore
-        name: 'John Brown${i}'
-    });
-}
-
-interface Iprops extends WithStyles<typeof styles> {
+interface Iprops extends WithStyles<typeof styles>, RouteComponentProps {
 }
 
 interface Istate {
     mode: string,
-    selectedData: string
+    selectedData: string,
+    infoList: PushList[]
 }
 
 class InfoPushList extends React.Component<Iprops, Istate> {
     public tableSet: {};
+    private tableColumns: Array<ColumnProps<PushList>> = [
+        {
+            title: '序号',
+            width: 40,
+            key: 'key',
+            render: (text, record, index) => `${index + 1}`
+        }, {
+            title: 'Name',
+            dataIndex: 'title',
+            key: 'title',
+            render: (text: any) => <a href="javascript:;">{text}</a>,
+        }, {
+            title: 'Action',
+            width: 160,
+            render: (text: any, record: any) => {
+                if (record.status === 0) {
+                    return (
+                        <span>
+                            <Button type="primary" href="javascript:;"
+                                    onClick={this.handlePublish.bind(this, record.id)}>发布</Button>
+                              <Divider type="vertical"/>
+                              <a href="javascript:;">编辑</a>
+                              <Divider type="vertical"/>
+                              <Popconfirm title="确定删除？" onConfirm={() => this.deleteNews(record.id)}>
+                                <a href="javascript:void(0);">删除</a>
+                              </Popconfirm>
+                        </span>
+                    )
+                } else if (record.status === 1) {
+                    return (
+                        <span>
+                            <a href="javascript:;">已发布</a>
+                              <Divider type="vertical"/>
+                              <a href="javascript:;" onClick={this.handleEdit.bind(this, record.id)}>编辑</a>
+                              <Divider type="vertical"/>
+                             <Popconfirm title="确定删除？" onConfirm={() => this.deleteNews(record.id)}>
+                                <a href="javascript:void(0);">删除</a>
+                              </Popconfirm>
+                        </span>
+                    )
+                } else {
+                    return (
+                        <span>
+                            未知状态
+                        </span>
+                    )
+                }
+            }
+        }
+    ];
 
     constructor(props: Iprops) {
         super(props);
         this.state = {
             mode: "已发布",
-            selectedData: ""
+            selectedData: "",
+            infoList: []
         };
         this.tableSet = {
             size: "small",
@@ -65,6 +113,32 @@ class InfoPushList extends React.Component<Iprops, Istate> {
         };
     }
 
+    public componentWillMount() {
+        this.setInfo();
+    }
+    public setInfo(){
+        getInfoPushList().then(value => {
+            this.setState({
+                infoList: value.data._embedded.news
+            })
+        });
+    }
+    // 点击发布
+    public handlePublish = (id: any) => {
+        console.log(id)
+    };
+    // 点击编辑
+    public handleEdit = (id: any) => {
+        this.props.history.push(`/infoPushEditor/${id}`)
+    };
+    // 点击删除
+    public deleteNews = (id: any) => {
+        delateNew(id).then((value)=>{
+            console.log(value);
+            message.success("删除成功~")
+            this.setInfo()
+        })
+    };
     public handleScreen = (key: any) => {
         // 这里是异步获取key 有一定延时
 
@@ -80,31 +154,6 @@ class InfoPushList extends React.Component<Iprops, Istate> {
 
     public render() {
         const {classes} = this.props;
-        const columns = [
-            {
-                title: 'Index',
-                dataIndex: 'index',
-                key: 'index',
-                width: 40
-            }, {
-                title: 'Name',
-                dataIndex: 'name',
-                key: 'name',
-                render: (text: any) => <a href="javascript:;">{text}</a>,
-            }, {
-                title: 'Action',
-                key: 'action',
-                width: 160,
-                render: (text: any, record: any) => (
-                    <span>
-                      <a href="javascript:;">发布</a>
-                      <Divider type="vertical"/>
-                      <a href="javascript:;">编辑</a>
-                      <Divider type="vertical"/>
-                      <a href="javascript:;">删除</a>
-                    </span>
-                ),
-            }];
         return (
             <div className={classes.InfoPushList}>
                 <div className={classes.filter}>
@@ -124,7 +173,7 @@ class InfoPushList extends React.Component<Iprops, Istate> {
                             </Radio.Group>
                         </Col>
                     </Row>
-                    <Table {...this.tableSet} columns={columns} dataSource={data}/>
+                    <Table {...this.tableSet} columns={this.tableColumns} dataSource={this.state.infoList}/>
                 </div>
             </div>
         );
