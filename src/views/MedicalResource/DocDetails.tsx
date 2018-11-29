@@ -1,35 +1,37 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import {Button, Form, Row, Input, Col, Collapse,Icon,Upload,Modal } from 'antd';
+import {Button, Form, Row, Input, Col, Collapse, Icon, Upload, Modal} from 'antd';
 import {FormComponentProps} from "antd/lib/form";
 import TextArea from "antd/lib/input/TextArea";
 import {Link} from "react-router-dom";
-
 
 
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
 const styles = (theme: Theme) => createStyles({
     root: {},
-    textareaStyle:{
-        width:"75vw",
-        marginLeft:"0.5vw",
+    textareaStyle: {
+        width: "75vw",
+        marginLeft: "0.5vw",
     }
 });
-interface Istate{
-    previewVisible:any,
-    previewImage:string,
-    fileList:any[]
+
+interface Istate {
+    previewVisible: any,
+    previewImage: string,
+    fileList: any[]
 }
 
 interface Iprops extends WithStyles<typeof styles>, FormComponentProps {
 }
+
 let id = 0;
-class DocDetails extends React.Component<Iprops,Istate> {
+
+class DocDetails extends React.Component<Iprops, Istate> {
     constructor(props: Iprops) {
         super(props);
-        this.state={
+        this.state = {
             previewVisible: false,
             previewImage: '',
             fileList: [{
@@ -40,24 +42,33 @@ class DocDetails extends React.Component<Iprops,Istate> {
             }],
         }
     }
+
+    public componentWillMount(){
+
+    }
+
     /** 删除上传图片 */
-    public handleCancel = () => this.setState({ previewVisible: false });
+    public handleCancel = () => this.setState({previewVisible: false});
 
     /** 文件预览 */
-    public handlePreview = (file:any) => {
+    public handlePreview = (file: any) => {
         this.setState({
             previewImage: file.url || file.thumbUrl,
             previewVisible: true,
         });
     };
     /** 上传文件 */
-    public handleChange = (fileList:any ) => {this.props.form.setFields({
-        avatar:fileList
-    })
-    alert(JSON.stringify(fileList))};
+    public handleChange = ({fileList}: any) => this.setState({fileList});
+    // {
+    //     this.props.form.setFields({
+    //         avatar: fileList
+    //     })
+    //     alert(JSON.stringify(fileList))
+    // };
+
 
     /** 把onchange的参数转化为控件的值 */
-    public normFile = (e:any) => {
+    public normFile = (e: any) => {
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
             return e;
@@ -66,27 +77,27 @@ class DocDetails extends React.Component<Iprops,Istate> {
     };
 
     /** 删除经历 */
-    public remove = (k:any) => {
-        const { form } = this.props;
+    public remove = (k: any) => {
+        const {form} = this.props;
         const keys = form.getFieldValue('keys');
         if (keys.length === 1) {
-             return;
+            return;
         }
         form.setFieldsValue({
-             keys: keys.filter((key:any) => key !== k),
+            keys: keys.filter((key: any) => key !== k),
         });
     };
 
-   /** 添加经历 */
-   public add = () => {
-        const { form } = this.props;
+    /** 添加经历 */
+    public add = () => {
+        const {form} = this.props;
         const keys = form.getFieldValue('keys');
         const nextKeys = keys.concat(++id);
         form.setFieldsValue({
-             keys: nextKeys,
+            keys: nextKeys,
         });
         // console.log(keys);
-   };
+    };
 
     public render() {
         /** 折叠版样式 */
@@ -104,10 +115,10 @@ class DocDetails extends React.Component<Iprops,Istate> {
             },
             wrapperCol: {
                 xs: {span: 16},
-                sm: {span: 19,offset:1},
+                sm: {span: 19, offset: 1},
             }
         };
-        const thirdFormItemLayout={
+        const thirdFormItemLayout = {
             labelCol: {
                 xs: {span: 8},
                 sm: {span: 8},
@@ -118,13 +129,13 @@ class DocDetails extends React.Component<Iprops,Istate> {
             }
         }
         const {classes} = this.props;
-        const {getFieldDecorator,getFieldValue } = this.props.form;
+        const {getFieldDecorator, getFieldValue} = this.props.form;
         /** 添加经历 */
-        getFieldDecorator('keys', { initialValue: [] });
+        getFieldDecorator('keys', {initialValue: []});
         const keys = getFieldValue('keys');
-        const formItems = keys.map((k:any, index:any) => {
+        const formItems = keys.map((k: any, index: any) => {
             return (
-                <FormItem required={false} key={k} >
+                <FormItem required={false} key={k}>
                     {getFieldDecorator(`names[${k}]`, {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [{
@@ -133,13 +144,15 @@ class DocDetails extends React.Component<Iprops,Istate> {
                             message: "请输入早年经历或删除本项",
                         }],
                     })(
-                        <TextArea placeholder="早年经历详情..." style={{ width: '96%', marginRight: 8 }}/>
+                        <TextArea placeholder="早年经历详情..." style={{width: '96%', marginRight: 8}}/>
                     )}
                     {keys.length > 1 ? (
                         <Icon
                             className="dynamic-delete-button"
                             type="minus-circle-o"
-                            onClick={()=>{this.remove(k)}}
+                            onClick={() => {
+                                this.remove(k)
+                            }}
                         />
                     ) : null}
                 </FormItem>
@@ -148,7 +161,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
         /** 上传按钮 */
         const uploadButton = (
             <div>
-                <Icon type="plus" />
+                <Icon type="plus"/>
                 <div style={{marginTop: "8px", color: "#666"}}>上传</div>
             </div>
         );
@@ -170,14 +183,15 @@ class DocDetails extends React.Component<Iprops,Istate> {
                                 </Col>
                                 <Col span={4} offset={14}>
                                     <Row gutter={24}>
-                                        <Col span={12}><Button type="primary" ><Link to={"/medicalLib/doctorLib"}>返回</Link></Button></Col>
+                                        <Col span={12}><Button type="primary"><Link
+                                            to={"/medicalLib/doctorLib"}>返回</Link></Button></Col>
                                         <Col span={12}><Button type="primary" htmlType="submit">保存</Button></Col>
                                     </Row>
                                 </Col>
                             </Row>
                             <Row gutter={24}> {/*第二行*/}
                                 <Col span={24}>
-                                    <FormItem label={"简介"} labelCol={{span:1}} wrapperCol={{span:23}}>
+                                    <FormItem label={"简介"} labelCol={{span: 1}} wrapperCol={{span: 23}}>
                                         {getFieldDecorator('introduction', {
                                             rules: [{required: true, message: '请输入简介'}],
                                         })(
@@ -192,7 +206,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
                                         {getFieldDecorator('hospital', {
                                             rules: [{required: true, message: '请输入就职医院'}],
                                         })(
-                                            <Input />
+                                            <Input/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -201,7 +215,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
                                         {getFieldDecorator('depart', {
                                             rules: [{required: true, message: '请输入所在科室'}],
                                         })(
-                                            <Input />
+                                            <Input/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -210,7 +224,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
                                         {getFieldDecorator('level', {
                                             rules: [{required: true, message: '请输入职称'}],
                                         })(
-                                            <Input />
+                                            <Input/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -219,7 +233,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
                                         {getFieldDecorator('major', {
                                             rules: [{required: true, message: '请输入职务'}],
                                         })(
-                                            <Input />
+                                            <Input/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -235,11 +249,11 @@ class DocDetails extends React.Component<Iprops,Istate> {
                                     </FormItem>
                                 </Col>
                                 <Col span={14} offset={4}>
-                                    <FormItem label={"擅长疾病"} labelCol={{span:6}} wrapperCol={{span:18}}>
+                                    <FormItem label={"擅长疾病"} labelCol={{span: 6}} wrapperCol={{span: 18}}>
                                         {getFieldDecorator('skillful', {
                                             rules: [{required: true, message: '请输入擅长'}],
                                         })(
-                                            <TextArea />
+                                            <TextArea/>
                                         )}
                                     </FormItem>
                                 </Col>
@@ -248,7 +262,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
                         <Panel header="人物履历" key="2" style={customPanelStyle}>
                             <Row gutter={24}> {/*第一行*/}
                                 <Col span={24}>
-                                    <FormItem  labelCol={{span:1}} wrapperCol={{span:23}}>
+                                    <FormItem labelCol={{span: 1}} wrapperCol={{span: 23}}>
                                         {getFieldDecorator('experienceDetails', {
                                             rules: [{required: true, message: '请输入经历详情'}],
                                         })(
@@ -258,16 +272,16 @@ class DocDetails extends React.Component<Iprops,Istate> {
                                 </Col>
                             </Row>
                             {formItems}
-                            <FormItem >
-                                <Button type="dashed" onClick={this.add} >
-                                    <Icon type="plus-circle" />添加经历
+                            <FormItem>
+                                <Button type="dashed" onClick={this.add}>
+                                    <Icon type="plus-circle"/>添加经历
                                 </Button>
                             </FormItem>
                         </Panel>
                         <Panel header="工作方向" key="3" style={customPanelStyle}>
                             <Row gutter={24}>
                                 <Col span={24}>
-                                    <FormItem  labelCol={{span:1}} wrapperCol={{span:23}}>
+                                    <FormItem labelCol={{span: 1}} wrapperCol={{span: 23}}>
                                         {getFieldDecorator('workDirection', {
                                             rules: [{required: true, message: '请输入工作方向'}],
                                         })(
@@ -280,7 +294,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
                         <Panel header="从业经历" key="4" style={customPanelStyle}>
                             <Row gutter={24}>
                                 <Col span={24}>
-                                    <FormItem  labelCol={{span:1}} wrapperCol={{span:23}}>
+                                    <FormItem labelCol={{span: 1}} wrapperCol={{span: 23}}>
                                         {getFieldDecorator('careerExperience', {
                                             rules: [{required: true, message: '请输入从业经历'}],
                                         })(
@@ -293,7 +307,7 @@ class DocDetails extends React.Component<Iprops,Istate> {
                         <Panel header="荣誉奖项" key="5" style={customPanelStyle}>
                             <Row gutter={24}>
                                 <Col span={24}>
-                                    <FormItem  labelCol={{span:1}} wrapperCol={{span:23}}>
+                                    <FormItem labelCol={{span: 1}} wrapperCol={{span: 23}}>
                                         {getFieldDecorator('honorary', {
                                             rules: [{required: true, message: '请输入荣誉奖项'}],
                                         })(
@@ -306,22 +320,16 @@ class DocDetails extends React.Component<Iprops,Istate> {
                         <Panel header="医生风采" key="6" style={customPanelStyle}>
                             <FormItem>
                                 <div className="clearfix">
-                                    {getFieldDecorator('avatar', {
-                                        // valuePropName: 'fileList',
-                                        initialValue:this.state.fileList,
-                                        getValueFromEvent: this.normFile,
-                                    })(
-                                        <Upload name="files"
-                                                        action="/manage/editorUpload"
-                                                        listType="picture-card"
-                                                        fileList={this.state.fileList}
-                                                        onPreview={this.handlePreview}
-                                                        onChange={this.handleChange}>
-                                            {this.state.fileList.length >= 4 ? null : uploadButton}
-                                        </Upload>
-                                    )}
-                                    <Modal visible={this.state.previewVisible} footer={null} onCancel={this.handleCancel}>
-                                        <img alt="example" style={{ width: '100%' }} src={this.state.previewImage} />
+                                    <Upload action="/manage/upload?type=NEWS"
+                                            listType="picture-card"
+                                            fileList={this.state.fileList}
+                                            onPreview={this.handlePreview}
+                                            onChange={this.handleChange}>
+                                        {this.state.fileList.length >= 4 ? null : uploadButton}
+                                    </Upload>
+                                    <Modal visible={this.state.previewVisible} footer={null}
+                                           onCancel={this.handleCancel}>
+                                        <img alt="example" style={{width: '100%'}} src={this.state.previewImage}/>
                                     </Modal>
                                 </div>
                             </FormItem>
