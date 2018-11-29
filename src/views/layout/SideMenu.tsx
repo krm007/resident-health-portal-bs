@@ -86,23 +86,12 @@ class SideMenu extends React.Component<Iprops, Istate> {
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key="infoPush" title={
-                        <span>
-                        <Icon type="info"/>
-                        <span>信息推送</span>
-                        </span>
-                    }>
-                        <Menu.Item key="infoPushNew">
-                            <Link to={"/infoPush/infoPushNew"}>
-                                <span>新建推送</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="infoPushDetail">
-                            <Link to={"/infoPush/infoPushDetail"}>
-                                <span>推送详情</span>
-                            </Link>
-                        </Menu.Item>
-                    </SubMenu>
+                    <Menu.Item key="infoPush">
+                        <Link to={"/infoPush"}>
+                            <Icon type="info"/>
+                            <span>信息推送</span>
+                        </Link>
+                    </Menu.Item>
                     <SubMenu key="user" title={
                         <span>
                         <Icon type="user"/>

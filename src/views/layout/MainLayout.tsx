@@ -1,61 +1,73 @@
-import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
+import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import {WithStyles} from "@material-ui/core/styles/withStyles";
-import {Avatar,Badge, Button, Dropdown, Icon, Layout, Menu} from 'antd';
+import {Avatar, Badge, Button, Dropdown, Icon, Layout, Menu} from "antd";
 import * as React from "react";
 import {Route, RouteProps, Switch} from "react-router";
-import headIcon from "../../images/head.png"
+import headIcon from "../../images/head.png";
 import Home from "../home/Home";
 import SideMenu from "./SideMenu";
 import BreadCrumb from "./BreadCrumb";
-import { BannerManage, InfoPush, NosourceManagement } from "../../router/RouterComponent";
+import {
+    BannerManage,
+    Blacklist,
+    InfoPush,
+    NosourceManagement,
+    InfoPushNew
+} from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
 import DocDetails from "../MedicalResource/DocDetails";
 import AddHos from "../MedicalResource/AddHos";
 import AddDoc from "../MedicalResource/AddDoc";
+import service from '../../axios/Service';
+// @ts-ignore
+import Qs from 'qs'
 
 const {Header, Sider, Content} = Layout;
-const styles = (theme: Theme) => createStyles<"Layout" | "header" | "content" | "userbox">({
-    Layout: {},
-    content: {
-        background: '#fff',
-        margin: 14,
-        minHeight: 480,
-        padding: 14,
-    },
-    header: {
-        "& .trigger": {
-            color: "#fff",
-            cursor: "pointer",
-            fontSize: "18px",
-            lineHeight: "45px",
-            padding: "0 24px",
-            transition: "color .3s",
-            verticalAlign: "0.35em",
+const styles = (theme: Theme) =>
+    createStyles<'Layout' | 'header' | 'content' | 'userbox'>({
+        Layout: {},
+        content: {
+            background: '#fff',
+            margin: 14,
+            minHeight: 480,
+            padding: 14,
+            overflowY: 'auto',
+            height: '82vh',
         },
-        "& .ant-badge":{
-            marginRight:"20px"
+        header: {
+            '& .trigger': {
+                color: '#fff',
+                cursor: 'pointer',
+                fontSize: '18px',
+                lineHeight: '45px',
+                padding: '0 24px',
+                transition: 'color .3s',
+                verticalAlign: '0.35em',
+            },
+            '& .ant-badge': {
+                marginRight: '20px',
+            },
+            background: '#458AB6',
+            height: '45px',
+            padding: 0,
         },
-        background: '#458AB6',
-        height: "45px",
-        padding: 0,
-    },
-    userbox: {
-        width: "20vw",
-        float: "right",
-        lineHeight: "40px",
-        textAlign:"right",
-        paddingRight:"20px"
-    }
-});
+        userbox: {
+            width: '20vw',
+            float: 'right',
+            lineHeight: '40px',
+            textAlign: 'right',
+            paddingRight: '20px',
+        },
+    });
 
 interface Iprops extends WithStyles<typeof styles> {
 }
 
 interface Istate {
-    collapsed: boolean,
-    logined: boolean,
-    userId: number
+    collapsed: boolean;
+    logined: boolean;
+    userId: number;
 }
 
 class MainLayout extends React.Component<Iprops, Istate> {
@@ -85,24 +97,30 @@ class MainLayout extends React.Component<Iprops, Istate> {
         const menu = (
             <Menu>
                 <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
+                    <p
+                        onClick={event1 => {
+                            service.post(
+                                '/loginByPhonePwd',
+                                Qs.stringify({
+                                    phone: '13348916944',
+                                    password: '1234',
+                                }),
+                            );
+                        }}
+                    >
+                        登陆
+                    </p>
                 </Menu.Item>
             </Menu>
         );
         const hasLogined = (
             <div>
-                <span style={{lineHeight:"45px"}}>
-                    <Badge >
-                        <Icon type="wechat" style={{fontSize: "20px",color:"#f0f0f0"}}/>
+                <span style={{lineHeight: "45px"}}>
+                    <Badge>
+                        <Icon type="wechat" style={{fontSize: "20px", color: "#f0f0f0"}}/>
                     </Badge>
-                    <Badge count={1} >
-                        <Icon type="mail" style={{fontSize: "20px",color:"#f0f0f0"}}/>
+                    <Badge count={1}>
+                        <Icon type="mail" style={{fontSize: "20px", color: "#f0f0f0"}}/>
                     </Badge>
                 </span>
                 <Dropdown overlay={menu}>
@@ -150,7 +168,12 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/addDoc"} component={AddDoc}/>
                                     <Route<RouteProps> path={"/docDetails"} component={DocDetails}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
-                                    <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement} />
+                                    <Route<RouteProps> path={"/infoPushNew"} component={InfoPushNew}/>
+                                    <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement}/>
+                                    <Route<RouteProps>
+                                        path={"/user/blacklist"}
+                                        component={Blacklist}
+                                    />
                                 </Switch>
                             </div>
 

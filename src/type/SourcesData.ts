@@ -18,3 +18,11 @@ export interface Sources {
   phoneNumber?: string;
   address?: string;
 }
+export interface BlacklistData {
+  id?: string;
+  createTime?: any;
+  updateTime?: any;
+  status?: number;
+  username?: any;
+  defaultTimes?:number
+}
