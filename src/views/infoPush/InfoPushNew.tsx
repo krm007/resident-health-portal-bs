@@ -1,8 +1,9 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import {Form, Input, Select, Col, Row} from "antd";
+import {Form, Input, Select, Col, Row, Button} from "antd";
 import {FormComponentProps} from "antd/lib/form";
+import {RouteComponentProps} from "react-router";
 // @ts-ignore
 import CKEditor from '@ckeditor/ckeditor5-react';
 // @ts-ignore
@@ -11,7 +12,6 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
 declare global {
     interface Window {
         editor: any;
@@ -20,12 +20,12 @@ declare global {
 const styles = (theme: Theme) => createStyles<"InfoPushNew">({
     InfoPushNew: {
         "& .ck-editor__editable": {
-            minHeight: "50vh"
+            minHeight: "30vh"
         }
     }
 });
 
-interface Iprops extends WithStyles<typeof styles>, FormComponentProps {
+interface Iprops extends WithStyles<typeof styles>, FormComponentProps, RouteComponentProps<any> {
     text: string
 }
 
@@ -37,14 +37,20 @@ class InfoPushNew extends React.Component<Iprops> {
 
     }
 
-    public componentDidMount =()=> {
+    public componentDidMount = () => {
 
     };
+    public getData() {
+        return window.editor
+    }
+    // 点击发送
+    public handleSend = () => {
 
-    public getData = () => {
-        return window.editor.getDate()
     };
-
+    // 点击保存
+    public handleSave=(value:any)=>{
+        console.log(value+","+this.getData())
+    };
     public render() {
         const {classes} = this.props;
         const {getFieldDecorator} = this.props.form;
@@ -63,10 +69,19 @@ class InfoPushNew extends React.Component<Iprops> {
                 <div>
                     <Row>
                         <Col span={24}>
-                            <Form>
+                            <Form
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    this.props.form.validateFields((err, values) => {
+                                        if (!err) {
+                                            console.log(values);
+                                        }
+                                    });
+                                }}
+                            >
                                 <FormItem {...formItemLayout} label="标题" style={{marginBottom: 0}}>
                                     {getFieldDecorator('title', {
-                                        rules: [{message: 'Username is required!'}],
+                                        rules: [{message:'请填写标题！',required:true}],
                                     })(
                                         <div>
                                             <Input style={{width: "300px", marginRight: "10px"}}/>
@@ -76,28 +91,32 @@ class InfoPushNew extends React.Component<Iprops> {
                                 </FormItem>
                                 <FormItem {...formItemLayout} label="类型">
                                     {getFieldDecorator('type', {
-                                        rules: [{message: 'Username is required!'}],
+                                        initialValue: "1",
+                                        rules: [{required:true}],
                                     })(
                                         <Select
                                             style={{width: 300}}
-                                            placeholder="Select a person"
                                             optionFilterProp="children"
                                             // filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                                         >
-                                            <Option value="jack">Jack</Option>
-                                            <Option value="lucy">Lucy</Option>
-                                            <Option value="tom">Tom</Option>
+                                            <Option value="1">大众保健</Option>
+                                            < Option value="2">慢病护理</Option>
+                                            < Option value="3">老年人保健</Option>
+                                            < Option value="4">孕产妇保健</Option>
+                                            < Option value="5">婴幼儿护理</Option>
+                                            < Option value="6">政府政策</Option>
+                                            < Option value="7">规章制度</Option>
                                         </Select>
                                     )}
                                 </FormItem>
                                 <CKEditor
                                     editor={ClassicEditor}
                                     // 获取数据
-                                    data="空着"
+                                    data=""
                                     config={{
                                         language: 'zh-cn',
-                                        toolbar:[ 'undo', 'redo','bold', 'italic', 'link', 'bulletedList', 'numberedList','imageUpload', 'blockQuote'],
-                                        ckfinder:{
+                                        toolbar: ['undo', 'redo', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'blockQuote'],
+                                        ckfinder: {
                                             uploadUrl: '/manage/editorUpload?status=1'
                                         }
                                     }}
@@ -106,10 +125,15 @@ class InfoPushNew extends React.Component<Iprops> {
 
                                     }}
                                     onChange={(event: any, editor: any) => {
-                                        const data = editor.getData();
-                                        console.log({event, editor, data});
+                                     window.editor = editor.getData();
                                     }}
                                 />
+                                <FormItem {...formItemLayout} >
+
+                                    <Button htmlType="submit" type="primary" style={{marginRight:"20px"}}>保存</Button>
+                                    <Button type="primary" onClick={this.handleSend}>发送</Button>
+
+                                </FormItem>
                             </Form>
                         </Col>
                     </Row>

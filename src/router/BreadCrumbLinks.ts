@@ -7,7 +7,7 @@ const breadcrumbNameMap = {
     '/medicalLib/hospitalLib':'医院字典',
     '/medicalLib/doctorLib':'医生字典',
     '/infoPush': '信息推送',
-    '/infoPush/infoPushNew':'新建推送',
+    '/infoPushNew':'新建推送',
     '/infoPush/infoPushDetail':'推送详情',
     '/user': '用户管理',
     '/user/realName':'实名认证',
