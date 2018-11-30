@@ -2,7 +2,7 @@
 import service from "./Service";
 import { RestPage } from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
-import {PushList, OneList, AddNews} from "../type/MessageData";
+import {PushList, OneList, AddNews,  FilterArr} from "../type/MessageData";
 
 // 获取日志列表
 export function getLogList() {
@@ -58,4 +58,8 @@ export function addNew(data:AddNews) {
 // 删除一条推送
 export function delateNew(id:string) {
   return service.delete(`/news/${id}`)
+}
+// 点击查询时根据筛选条件返回数据
+export function filterQuery(params:FilterArr) {
+    return service.get("/news/query",{params})
 }

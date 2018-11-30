@@ -1,3 +1,8 @@
+// 筛选推送消息
+export interface FilterArr {
+    firstType?: string,
+    secondType?: string
+}
 // 信息推送
 export interface PushList {
     id?: string,

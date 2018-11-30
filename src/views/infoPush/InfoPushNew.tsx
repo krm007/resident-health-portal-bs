@@ -57,7 +57,7 @@ class InfoPushNew extends React.Component<Iprops, Istates> {
             })
         }
     };
-
+    // 获取富文本编辑器内容
     public getData() {
         return window.editor
     }
@@ -124,13 +124,13 @@ class InfoPushNew extends React.Component<Iprops, Istates> {
                                             optionFilterProp="children"
                                             // filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                                         >
-                                            <Option value="1">大众保健</Option>
-                                            < Option value="2">慢病护理</Option>
-                                            < Option value="3">老年人保健</Option>
-                                            < Option value="4">孕产妇保健</Option>
-                                            < Option value="5">婴幼儿护理</Option>
-                                            < Option value="6">政府政策</Option>
-                                            < Option value="7">规章制度</Option>
+                                            <Option value="大众保健">大众保健</Option>
+                                            < Option value="慢病护理">慢病护理</Option>
+                                            < Option value="老年人保健">老年人保健</Option>
+                                            < Option value="孕产妇保健">孕产妇保健</Option>
+                                            < Option value="婴幼儿护理">婴幼儿护理</Option>
+                                            < Option value="政府政策">政府政策</Option>
+                                            < Option value="规章制度">规章制度</Option>
                                         </Select>
                                     )}
                                 </FormItem>
@@ -151,6 +151,11 @@ class InfoPushNew extends React.Component<Iprops, Istates> {
                                     }}
                                     onChange={(event: any, editor: any) => {
                                         window.editor = editor.getData();
+                                        const list = this.state.oneList;
+                                        list.content = window.editor;
+                                        this.setState({
+                                            oneList:list
+                                        })
                                     }}
                                 />
 
