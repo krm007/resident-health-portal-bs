@@ -69,22 +69,32 @@ class Filter extends React.Component<Iprops, Istate> {
     public active1 = (e: any, index: any, val: string) => {
         // 获取元素 e.target
         // 获取文本 e.target.text
-        this.resetActive();
-        this.setState({
-            currentIndex1: index,
-        });
-        const params = {secondType:val};
-        this.props.handleScreen(params)
+        if(this.state.currentIndex1 === index){
+            this.resetActive();
+            this.props.handleScreen()
+        }else{
+            this.resetActive();
+            this.setState({
+                currentIndex1: index,
+            });
+            const params = {secondType:val};
+            this.props.handleScreen(params)
+        }
+
     };
     public active2 = (e: any, index: any, val: any) => {
         // 获取元素 e.target
-        // 获取文本 e.target.text
-        this.resetActive();
-        this.setState({
-            currentIndex2: index,
-        });
-        const params = {secondType:val};
-        this.props.handleScreen(params)
+        if(this.state.currentIndex2 === index){
+            this.resetActive();
+            this.props.handleScreen()
+        }else {
+            this.resetActive();
+            this.setState({
+                currentIndex2: index,
+            });
+            const params = {secondType: val};
+            this.props.handleScreen(params)
+        }
     };
     public handleSearch = (val: string) => {
         const params = {content:val};

@@ -174,7 +174,7 @@ class InfoPushList extends React.Component<Iprops, Istate> {
                             </Radio.Group>
                         </Col>
                     </Row>
-                    <Table {...this.tableSet} columns={this.tableColumns} dataSource={this.state.infoList}/>
+                    <Table {...this.tableSet} columns={this.tableColumns} dataSource={this.state.infoList} loading={true}/>
                 </div>
             </div>
         );
