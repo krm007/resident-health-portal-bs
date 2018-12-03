@@ -33,3 +33,17 @@ export interface News {
     content: string,
     secondType: string
 }
+// 查询所有认证
+export interface verifyList {
+    aboveUrl?: string,
+    accountId?: string,
+    applicateTime?: string,
+    belowUrl?: string,
+    createTime?: string,
+    id?: string,
+    idCard?: string,
+    realName?: string,
+    state?: number,
+    status?: number,
+    updateTime?: string
+}

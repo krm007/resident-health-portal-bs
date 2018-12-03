@@ -129,8 +129,8 @@ class SideMenu extends React.Component<Iprops, Istate> {
                         <span>用户管理</span>
                         </span>
                     }>
-                        <Menu.Item key="/user/certification">
-                            <Link to={"/user/certification"}>
+                        <Menu.Item key="/user/verify">
+                            <Link to={"/user/verify"}>
                                 <span>实名认证</span>
                             </Link>
                         </Menu.Item>

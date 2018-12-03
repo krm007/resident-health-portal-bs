@@ -15,7 +15,8 @@ import {
     InfoPushNew,
     DoctorsDictionary,
     DocDetails,
-    Certification
+    Certification,
+    Verify
 } from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import service from '../../axios/Service';
@@ -172,7 +173,8 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/infoPushNew"} component={InfoPushNew}/>
                                     <Route<RouteProps> path={"/infoPushEditor/:id?"} component={InfoPushNew}/>
                                     <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement}/>
-                                    <Route<RouteProps> path={"/user/certification"} component={Certification}/>
+                                    <Route<RouteProps> path={"/user/verify"} component={Verify}/>
+                                    <Route<RouteProps> path={"/user/Certification"} component={Certification}/>
                                     <Route<RouteProps>
                                         path={"/user/blacklist"}
                                         component={Blacklist}

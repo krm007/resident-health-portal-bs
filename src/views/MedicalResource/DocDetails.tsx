@@ -28,7 +28,7 @@ interface Istate {
 interface Iprops extends WithStyles<typeof styles>, FormComponentProps,RouteComponentProps<any> {
 }
 
-let id = 0;
+let $id = 0;
 class DocDetails extends React.Component<Iprops, Istate> {
     constructor(props: Iprops) {
         super(props);
@@ -46,7 +46,7 @@ class DocDetails extends React.Component<Iprops, Istate> {
     }
 
     public componentWillMount(){
-        const id=this.props.match.params.id;
+        const id =this.props.match.params.id;
         if (id){
             getOneDoc(id).then(value => {
                 console.log(id);
@@ -111,7 +111,7 @@ class DocDetails extends React.Component<Iprops, Istate> {
     public add = () => {
         const {form} = this.props;
         const keys = form.getFieldValue('keys');
-        const nextKeys = keys.concat(id++);
+        const nextKeys = keys.concat($id++);
         form.setFieldsValue({
             keys: nextKeys,
         });

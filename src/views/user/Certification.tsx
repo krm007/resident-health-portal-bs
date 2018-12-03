@@ -23,6 +23,7 @@ interface Iprops extends WithStyles<typeof styles>, FormComponentProps  {
 interface Istates {
     upLoadVisible: boolean,
     upLoadEle: any,
+    fileList:[]
 }
 
 class Certification extends React.Component<Iprops, Istates> {
@@ -30,11 +31,13 @@ class Certification extends React.Component<Iprops, Istates> {
         super(props);
         this.state = {
             upLoadVisible: false,
-            upLoadEle: ""
+            upLoadEle: "",
+            fileList:[]
         }
     }
 
     public componentWillMount() {
+
     }
     // 点击图片触发upload
 
