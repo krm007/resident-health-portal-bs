@@ -54,6 +54,7 @@ const styles = (theme: Theme) => createStyles({
 
 interface Iprops extends WithStyles<typeof styles> {
     // data:CardInfo[]
+    images:string
 }
 
 class SmallCard extends React.Component<Iprops> {
@@ -69,7 +70,7 @@ class SmallCard extends React.Component<Iprops> {
                        <Card title="医疗资源" bordered={true} style={{width:"25vw"}} className={classes.cardStyle}>
                            <div style={{display:"flex",justifyContent:"space-around"}}>
                                <div >
-                                   <img src={require("../../images/testCard.jpg")} style={{width:"70px",height:"70px"}} alt=""/>
+                                   <img src={this.props.images} style={{width:"70px",height:"70px"}} alt=""/>
                                </div>
                                <div style={{width:"100px"}}>
                                    <span className={classes.fontNum}>233,16</span>

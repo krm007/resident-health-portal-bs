@@ -92,9 +92,9 @@ class Home extends React.Component<Iprops, Istate> {
                 {/*</div>*/}
                 <div className={classes.secondCard}>
                     <Row type="flex" justify="space-between" align="middle" gutter={16}>
-                        <SmallCard classes={{root:classes.homeOne}}/>
-                        <SmallCard classes={{root:classes.homeTwo}}/>
-                        <SmallCard classes={{root:classes.homeThree}}/>
+                        <SmallCard images={require("../../images/homeCardTwo.png")} classes={{root:classes.homeOne}}/>
+                        <SmallCard images={require("../../images/homeCardOne.png")} classes={{root:classes.homeTwo}}/>
+                        <SmallCard images={require("../../images/homeCardThree.png")} classes={{root:classes.homeThree}}/>
                     </Row>
                 </div>
                 <LineChart />

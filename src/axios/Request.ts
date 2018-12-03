@@ -2,7 +2,6 @@
 import service from "./Service";
 import { RestPage ,DicLib} from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
-import {PushList, OneList, AddNews} from "../type/MessageData";
 import {DocDic,OneDoc} from "../type/DoctorData";
 import {HosDic} from "../type/HospitalData";
 import {PushList, OneList, News,  FilterArr} from "../type/MessageData";
