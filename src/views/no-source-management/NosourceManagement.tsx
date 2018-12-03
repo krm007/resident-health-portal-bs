@@ -3,9 +3,11 @@ import { WithStyles } from "@material-ui/core/styles/withStyles";
 import * as React from "react";
 import { Button, DatePicker, Form, Radio, Row, Select, Table } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import { Sources } from "../../type/SourcesData";
+import { HospitalInfo, Sources } from "../../type/SourcesData";
 import { getSources } from "../../axios/Request";
 import { ColumnProps } from "antd/lib/table";
+import service from "../../axios/Service";
+import { SelectValue } from "antd/lib/select";
 
 const styles = (theme: Theme) =>
   createStyles<"root" | "amAndPm">({
@@ -19,6 +21,7 @@ const styles = (theme: Theme) =>
 interface Iprops extends WithStyles<typeof styles>, FormComponentProps {}
 interface Istates {
   data: Sources[];
+  hospitalData: HospitalInfo[];
 }
 /**
  * @author sunshixong
@@ -26,6 +29,7 @@ interface Istates {
  */
 class NosourceManagement extends React.Component<Iprops, Istates> {
   private dom: HTMLDivElement | null;
+  private queryData: { hospitalId?: any; date?: any; time?: string } = {};
   private tableColums: Array<ColumnProps<Sources>> = [
     {
       title: "时间",
@@ -61,7 +65,8 @@ class NosourceManagement extends React.Component<Iprops, Istates> {
   constructor(props: Iprops) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      hospitalData: []
     };
   }
   public searchData = (e: React.FormEvent) => {
@@ -71,13 +76,24 @@ class NosourceManagement extends React.Component<Iprops, Istates> {
     console.log(super.setState({}));
   };
   public UNSAFE_componentWillMount(): void {
-    getSources().then(value => {
+    this.getSourceData();
+    service.get("/hospitals").then(value => {
+      this.setState({
+        hospitalData: value.data.content
+      });
+    });
+  }
+  public getSourceData = () => {
+    getSources(this.queryData).then(value => {
       this.setState({
         data: value.data._embedded.sources
       });
     });
-  }
-
+  };
+  public hospitalChange = (value: SelectValue) => {
+    this.queryData.hospitalId = value;
+    this.getSourceData();
+  };
   public render() {
     const { classes } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -91,31 +107,58 @@ class NosourceManagement extends React.Component<Iprops, Istates> {
         <Form layout={"inline"} onSubmit={this.searchData}>
           <Row>
             <Form.Item label={"时间"}>
-              {getFieldDecorator("data")(<DatePicker />)}
+              {getFieldDecorator("data")(
+                <DatePicker
+                  onChange={date => {
+                    this.queryData.date = date.format("YYYY-MM-DD HH:mm:ss");
+                    this.getSourceData();
+                  }}
+                />
+              )}
             </Form.Item>
             <Form.Item label={"选择医院"}>
               {getFieldDecorator("doctor")(
-                <Select style={{ width: "176px" }}>
-                  <Select.Option value={333}>内江人民医院</Select.Option>
+                <Select
+                  style={{ width: "176px" }}
+                  showSearch={true}
+                  onChange={this.hospitalChange}
+                >
+                  {this.state.hospitalData.map(value => {
+                    return (
+                      <Select.Option key={value.id} value={value.id}>
+                        {value.name}
+                      </Select.Option>
+                    );
+                  })}
                 </Select>
               )}
             </Form.Item>
             <Form.Item>
-              <Button htmlType={"submit"} type={"primary"}>
+              <Button
+                htmlType={"submit"}
+                type={"primary"}
+                onClick={this.getSourceData}
+              >
                 查询
               </Button>
             </Form.Item>
           </Row>
           <div className={classes.amAndPm}>
-            <Radio.Group onChange={e => {
-              alert("ss")
-            }}>
-              <Radio.Button value="am">只看上午</Radio.Button>
-              <Radio.Button value="pm">只看下午</Radio.Button>
+            <Radio.Group
+              onChange={e => {
+                this.queryData.time = e.target.value;
+              }}
+            >
+              <Radio.Button value="上午">只看上午</Radio.Button>
+              <Radio.Button value="下午">只看下午</Radio.Button>
             </Radio.Group>
           </div>
         </Form>
-        <Table size={"middle"} dataSource={this.state.data} columns={this.tableColums} />
+        <Table
+          size={"middle"}
+          dataSource={this.state.data}
+          columns={this.tableColums}
+        />
       </div>
     );
   }

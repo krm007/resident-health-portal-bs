@@ -1,4 +1,3 @@
-
 import service from "./Service";
 import { RestPage ,DicLib} from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
@@ -41,20 +40,22 @@ export function postForm(data:any) {
 /**
  * 获取号源
  */
-export function getSources() {
-  return service.get<RestPage<Sources>>("/sources");
+export function getSources(params: any) {
+  return service.get<RestPage<Sources>>("/sources/query", { params });
 }
 /**
  * 获取黑名单列表
  */
-export function getBlacklist() {
-  return service.get<RestPage<BlacklistData>>("/blackLists")
+export function getBlacklist(params: any) {
+  return service.get<RestPage<BlacklistData>>("/blackLists/query", {
+    params
+  });
 }
 /*
-*
-* 获取推送列表*/
+ *
+ * 获取推送列表*/
 export function getInfoPushList() {
-    return service.get<RestPage<PushList>>("/news")
+  return service.get<RestPage<PushList>>("/news");
 }
 /*
 *

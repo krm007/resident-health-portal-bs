@@ -66,13 +66,13 @@
 
 "@ckeditor/ckeditor5-build-classic@^11.1.1":
   version "11.1.1"
-  resolved "http://registry.npm.taobao.org/@ckeditor/ckeditor5-build-classic/download/@ckeditor/ckeditor5-build-classic-11.1.1.tgz#2eb3706bc83640bdc5f6d50e3a060aa70cf495aa"
-  integrity sha1-LrNwa8g2QL3F9tUOOgYKpwz0lao=
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-build-classic/-/ckeditor5-build-classic-11.1.1.tgz#2eb3706bc83640bdc5f6d50e3a060aa70cf495aa"
+  integrity sha512-YfXokhH3Z82zdu4KCfYj2/7I0KyQav5QhNBDKnliXVGgNDuFa529xWr6x+tMx57vu+iiiih7Nmxd86A7tvsh/w==
 
 "@ckeditor/ckeditor5-react@^1.0.0":
-  version "1.0.0"
-  resolved "http://registry.npm.taobao.org/@ckeditor/ckeditor5-react/download/@ckeditor/ckeditor5-react-1.0.0.tgz#747ba193035000ff9eeaba683006a87cacc39a40"
-  integrity sha1-dHuhkwNQAP+e6rpoMAaofKzDmkA=
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-react/-/ckeditor5-react-1.1.0.tgz#d0b0049754bea4b5dec0d2748306559f8b1a5ad4"
+  integrity sha512-X3uS8gMTgwt6rxEe0l+mo6N1U6o40DC922LcPWI81z6He+9MPIEtITxjaGxy5ts/O7RJDBMYsQVZJusTG+CcuA==
   dependencies:
     prop-types "^15.6.1"
 
@@ -168,11 +168,6 @@
   version "15.5.6"
   resolved "http://registry.npm.taobao.org/@types/prop-types/download/@types/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
   integrity sha1-nAPT/tcKjVF8GRt3NNooebUMomw=
-
-"@types/qs@^6.5.1":
-  version "6.5.1"
-  resolved "http://registry.npm.taobao.org/@types/qs/download/@types/qs-6.5.1.tgz#a38f69c62528d56ba7bd1f91335a8004988d72f7"
-  integrity sha1-o49pxiUo1WunvR+RM1qABJiNcvc=
 
 "@types/react-dom@^16.0.9":
   version "16.0.9"
