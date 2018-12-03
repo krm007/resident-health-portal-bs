@@ -1,7 +1,7 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import Filter from "./Filter";
+import {FilterArr} from "../../type/MessageData";
 import {
     Row, Col,
     Table,
@@ -11,10 +11,11 @@ import {
     Popconfirm,
     message
 } from "antd";
-import {delateNew, getInfoPushList} from "../../axios/Request";
+import {delateNew, filterQuery, getInfoPushList} from "../../axios/Request";
 import {PushList} from "../../type/MessageData";
 import {ColumnProps} from "antd/lib/table";
 import {RouteComponentProps} from "react-router";
+import Filter from "./Filter";
 
 const styles = (theme: Theme) => createStyles<"InfoPushList" | "filter" | "listContent" | "boundery">({
     InfoPushList: {
@@ -42,7 +43,7 @@ interface Iprops extends WithStyles<typeof styles>, RouteComponentProps {
 
 interface Istate {
     mode: string,
-    selectedData: string,
+    selectedData: FilterArr,
     infoList: PushList[]
 }
 
@@ -103,7 +104,7 @@ class InfoPushList extends React.Component<Iprops, Istate> {
         super(props);
         this.state = {
             mode: "已发布",
-            selectedData: "",
+            selectedData: {},
             infoList: []
         };
         this.tableSet = {
@@ -134,17 +135,17 @@ class InfoPushList extends React.Component<Iprops, Istate> {
     // 点击删除
     public deleteNews = (id: any) => {
         delateNew(id).then((value)=>{
-            console.log(value);
-            message.success("删除成功~")
+            message.success("删除成功~");
             this.setInfo()
         })
     };
-    public handleScreen = (key: any) => {
+    public handleScreen = (params: FilterArr) => {
         // 这里是异步获取key 有一定延时
-
-        this.setState({
-            selectedData: key
-        });
+        filterQuery(params).then((value)=>{
+            this.setState({
+                infoList: value.data._embedded.news
+            })
+        })
 
     };
     public handleModeChange = (e: any) => {
@@ -173,7 +174,7 @@ class InfoPushList extends React.Component<Iprops, Istate> {
                             </Radio.Group>
                         </Col>
                     </Row>
-                    <Table {...this.tableSet} columns={this.tableColumns} dataSource={this.state.infoList}/>
+                    <Table {...this.tableSet} columns={this.tableColumns} dataSource={this.state.infoList} loading={true}/>
                 </div>
             </div>
         );
