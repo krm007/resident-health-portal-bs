@@ -115,3 +115,7 @@ export interface CommonResult<T> {
   msg: string;
   data: T[];
 }
+/** 字典的数据格式 */
+export interface DicLib<T> {
+    _embedded:any;
+}

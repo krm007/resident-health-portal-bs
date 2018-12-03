@@ -12,16 +12,15 @@ import {
     Blacklist,
     InfoPush,
     NosourceManagement,
-    InfoPushNew
+    InfoPushNew,
+    DoctorsDictionary,
+    DocDetails
 } from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
-import DoctorsDictionary from "../MedicalResource/DoctorsDictionary";
-import DocDetails from "../MedicalResource/DocDetails";
-import AddHos from "../MedicalResource/AddHos";
-import AddDoc from "../MedicalResource/AddDoc";
 import service from '../../axios/Service';
 // @ts-ignore
 import Qs from 'qs'
+
 
 const {Header, Sider, Content} = Layout;
 const styles = (theme: Theme) =>
@@ -102,7 +101,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                             service.post(
                                 '/login/loginByPhonePwd',
                                 Qs.stringify({
-                                    phone: '13348916944',
+                                    phone: '18302866040',
                                     password: '1234',
                                 }),
                             );
@@ -164,8 +163,8 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/bannerManage"} component={BannerManage}/>
                                     <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
-                                    <Route<RouteProps> path={"/addHos"} component={AddHos}/>
-                                    <Route<RouteProps> path={"/addDoc"} component={AddDoc}/>
+                                    {/*<Route<RouteProps> path={"/addHos"} component={AddHos}/>*/}
+                                    <Route<RouteProps> path={"/addDoc"} component={DocDetails}/>
                                     <Route<RouteProps> path={"/docDetails/:id"} component={DocDetails}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
                                     <Route<RouteProps> path={"/infoPushNew"} component={InfoPushNew}/>

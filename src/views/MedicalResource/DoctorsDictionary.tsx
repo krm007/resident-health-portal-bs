@@ -3,7 +3,7 @@ import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
 import { Input,Button,Table, Divider} from 'antd';
 import {getDocDic} from "../../axios/Request";
-import {DocDic} from "../../type/HospitalData";
+import {DocDic} from "../../type/DoctorData";
 import {Link} from "react-router-dom";
 
 const Search = Input.Search;
@@ -36,8 +36,9 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
 
     public componentWillMount(){
         getDocDic().then(value => {
+            // console.log(value.data._embedded.portalDoctors);
             this.setState({
-                data:value.data.content
+                data:value.data._embedded.portalDoctors
             })
         });
     }
@@ -53,8 +54,8 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
             key: 'title',
         }, {
             title: '就职医院',
-            dataIndex: 'hospitalName',
-            key: 'hospitalName',
+            dataIndex: 'hospital',
+            key: 'hospital',
         }, {
             title: '所在科室',
             dataIndex: 'depart',
@@ -62,9 +63,9 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
         }, {
             title: '操作',
             key: 'action',
-            render: () => (
+            render: (record:any) => (
                 <span>
-                    <Link to={"/docDetails"} >详情</Link>
+                    <Link to={`/docDetails/${record.id}`} >详情</Link>
                     <Divider type="vertical" />
                     <a href="javascript:;">停用</a>
                 </span>

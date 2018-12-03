@@ -21,7 +21,7 @@ interface Istate {
   data: HosDic[];
 }
 
-interface Iprops extends WithStyles<typeof styles> {}
+interface Iprops extends WithStyles<typeof styles>{}
 
 class HospitalDictionary extends React.Component<Iprops, Istate> {
   constructor(props: Iprops) {
@@ -32,13 +32,10 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
   }
 
   public componentWillMount() {
-    // this.setState({
-    //   data: getHosDic()
-    // });
     getHosDic().then(value => {
-        this.setState({
-            data:value.data.content
-        })
+        // this.setState({
+        //     data:value.data._embedded
+        // })
 
     });
   }

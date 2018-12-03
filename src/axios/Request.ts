@@ -1,8 +1,10 @@
 
 import service from "./Service";
-import { RestPage } from "../type/CommonData";
+import { RestPage ,DicLib} from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
 import {PushList, OneList, AddNews} from "../type/MessageData";
+import {DocDic,OneDoc} from "../type/DoctorData";
+import {HosDic} from "../type/HospitalData";
 
 // 获取日志列表
 export function getLogList() {
@@ -20,13 +22,22 @@ export function getLogList() {
 
 /** 医院字典 */
 export function getHosDic() {
-  return service.get("/hospitals");
+  return service.get<DicLib<HosDic>>("/hospitals");
 }
 
 /** 医生字典 */
 export function getDocDic() {
-  return service.get("/doctors");
+  return service.get<DicLib<DocDic>>("/portalDoctors/query");
 }
+/** 医生新增和详情 */
+export function getOneDoc(id:any) {
+    return service.get<OneDoc>(`/portalDoctors/${id}`);
+}
+/** 新增一条医生信息 */
+export function postForm(data:any) {
+    return service.post(`/portalDoctors`,data);
+}
+
 /**
  * 获取号源
  */
