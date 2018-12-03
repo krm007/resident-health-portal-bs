@@ -23,32 +23,24 @@ service.interceptors.request.use(
  */
 service.interceptors.response.use(
   response => {
-    if (response.status) {
-      if (response.status === 401) {
-        Modal.confirm({ content: "登录信息已过期！请重新登录" });
-        createHashHistory().push("/login");
-      }
-      return response;
-    } else {
-      return response;
+    if (response.status === 401) {
+      Modal.confirm({ content: "登录信息已过期！请重新登录" });
+      createHashHistory().push("/login");
     }
+    return response;
   },
   error => {
-    if (error.response.status) {
-      if (error.response.status === 500) {
-        Modal.error({ content: "服务器错误" });
-      }
-      if (error.response.status === 504 || error.response.status === 404) {
-        Modal.error({ content: "服务器被吃了⊙﹏⊙∥" });
-      }
-      if (error.response.status === 401) {
-        const historyApp = createHashHistory();
-        historyApp.push("/login");
-      }
-      return Promise.reject(error);
-    } else {
-      return Promise.reject(error);
+    if (error.response.status === 500) {
+      Modal.error({ content: "服务器错误" });
     }
+    if (error.response.status === 504 || error.response.status === 404) {
+      Modal.error({ content: "服务器被吃了⊙﹏⊙∥" });
+    }
+    if (error.response.status === 401) {
+      const historyApp = createHashHistory();
+      historyApp.push("/login");
+    }
+    return Promise.reject(error);
   }
 );
 export default service;
