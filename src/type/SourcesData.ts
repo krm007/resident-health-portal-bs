@@ -26,6 +26,8 @@ export interface BlacklistData {
   username?: any;
   defaultTimes?:number;
   verifyStatus?:string
+  userId?: string;
+  expireDate?: any;
 }
 /**
  * 医院信息数据
