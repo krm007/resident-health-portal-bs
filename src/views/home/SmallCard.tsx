@@ -54,7 +54,10 @@ const styles = (theme: Theme) => createStyles({
 
 interface Iprops extends WithStyles<typeof styles> {
     // data:CardInfo[]
-    images:string
+    images:string,
+    title:string,
+    oneData:string,
+    twoData:string
 }
 
 class SmallCard extends React.Component<Iprops> {
@@ -67,19 +70,19 @@ class SmallCard extends React.Component<Iprops> {
                    {/*dataSource={}*/}
                    {/*renderItem={(item) => (*/}
                    {/*<List.Item column={24} style={{border: 0}}>*/}
-                       <Card title="医疗资源" bordered={true} style={{width:"25vw"}} className={classes.cardStyle}>
+                       <Card title={this.props.title} bordered={true} style={{width:"25vw"}} className={classes.cardStyle}>
                            <div style={{display:"flex",justifyContent:"space-around"}}>
                                <div >
                                    <img src={this.props.images} style={{width:"70px",height:"70px"}} alt=""/>
                                </div>
                                <div style={{width:"100px"}}>
                                    <span className={classes.fontNum}>233,16</span>
-                                   <p className={classes.fontStyle}>医院总数</p>
+                                   <p className={classes.fontStyle}>{this.props.oneData}</p>
                                </div>
                                <div ><Hr/></div>
                                <div style={{width:"100px"}}>
                                    <span className={classes.fontNum}>233,16</span>
-                                   <p className={classes.fontStyle}>医院总数</p>
+                                   <p className={classes.fontStyle}>{this.props.twoData}</p>
                                </div>
                            </div>
                        </Card>

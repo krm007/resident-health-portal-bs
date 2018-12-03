@@ -5,6 +5,7 @@ import {DocDic,OneDoc} from "../type/DoctorData";
 import {HosDic} from "../type/HospitalData";
 import {PushList, OneList, News,  FilterArr} from "../type/MessageData";
 
+
 // 获取日志列表
 export function getLogList() {
   // return service.get("");
@@ -28,7 +29,7 @@ export function getHosDic() {
 export function getDocDic() {
   return service.get<DicLib<DocDic>>("/portalDoctors/query");
 }
-/** 医生新增和详情 */
+/** 医生新增和详情页面,获取一个医生的信息 停用医生 */
 export function getOneDoc(id:any) {
     return service.get<OneDoc>(`/portalDoctors/${id}`);
 }
@@ -36,6 +37,7 @@ export function getOneDoc(id:any) {
 export function postForm(data:any) {
     return service.post(`/portalDoctors`,data);
 }
+
 
 /**
  * 获取号源

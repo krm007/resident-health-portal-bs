@@ -1,8 +1,8 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import { Input,Button,Table, Divider} from 'antd';
-import {getDocDic} from "../../axios/Request";
+import {Input, Button, Table, Divider, Modal, Popconfirm} from 'antd';
+import {getDocDic,getOneDoc} from "../../axios/Request";
 import {DocDic} from "../../type/DoctorData";
 import {Link} from "react-router-dom";
 
@@ -19,7 +19,9 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 interface Istate{
-    data:DocDic[]
+    data:DocDic[],
+    visible: boolean
+
 }
 
 interface Iprops extends WithStyles<typeof styles> {
@@ -30,11 +32,14 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
     constructor(props:Iprops){
         super(props);
         this.state={
-            data:[]
+            data:[],
+            visible: false
+
         }
     }
 
     public componentWillMount(){
+        /** 获取医生字典 */
         getDocDic().then(value => {
             // console.log(value.data._embedded.portalDoctors);
             this.setState({
@@ -42,6 +47,33 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
             })
         });
     }
+
+    /** 停用医生 */
+    public preventDoc=(id:any)=>{
+        // 获取当前医生的信息
+        getOneDoc(id).then(value => {
+            console.log(value.data);
+        })
+    }
+
+    /** 点击批量导入 */
+    public showModal=()=>{
+        this.setState({
+            visible: true,
+        });
+    };
+
+    public handleOk = (e:any) => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+    public handleCancel = (e:any) => {
+        this.setState({
+            visible: false,
+        });
+    };
 
     public render() {
         const columns = [{
@@ -67,7 +99,9 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
                 <span>
                     <Link to={`/docDetails/${record.id}`} >详情</Link>
                     <Divider type="vertical" />
-                    <a href="javascript:;">停用</a>
+                    <Popconfirm title="确定停用？" onConfirm={() => this.preventDoc(record.id)}>
+                        <a href="javascript:void(0);">停用</a>
+                    </Popconfirm>
                 </span>
             )
         }];
@@ -82,7 +116,15 @@ class DoctorsDictionary extends React.Component<Iprops,Istate> {
                         enterButton={true}
                         style={{width: "27%",float:"left"}}
                     />
-                    <Button type="primary" style={{float:"left",marginLeft:"20px"}}>批量导入</Button>
+                    <Button type="primary" style={{float:"left",marginLeft:"20px"}} onClick={this.showModal} >批量导入</Button>
+                        <Modal
+                            title="温馨提示"
+                            visible={this.state.visible}
+                            onOk={this.handleOk}
+                            onCancel={this.handleCancel}
+                        >
+                            <p>正在开发中敬请期待...</p>
+                        </Modal>
                     <Button type="primary" className={classes.addButton}><Link to={"/addDoc"}>新增</Link></Button>
                 </div>
                 <br/>

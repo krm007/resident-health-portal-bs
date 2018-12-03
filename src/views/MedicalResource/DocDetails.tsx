@@ -48,6 +48,7 @@ class DocDetails extends React.Component<Iprops, Istate> {
     public componentWillMount(){
         const id=this.props.match.params.id;
         if (id){
+            /** 详情回显 */
             getOneDoc(id).then(value => {
                 console.log(id);
                 this.setState({
