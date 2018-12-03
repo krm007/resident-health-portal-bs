@@ -2,7 +2,7 @@ import {createStyles, Theme, withStyles} from "@material-ui/core/styles";
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import {Avatar, Badge, Button, Dropdown, Icon, Layout, Menu} from "antd";
 import * as React from "react";
-import {Route, RouteProps, Switch} from "react-router";
+import {Redirect, Route, RouteProps, Switch} from "react-router";
 import headIcon from "../../images/head.png";
 import Home from "../home/Home";
 import SideMenu from "./SideMenu";
@@ -14,7 +14,8 @@ import {
     NosourceManagement,
     InfoPushNew,
     DoctorsDictionary,
-    DocDetails
+    DocDetails,
+    Certification
 } from "../../router/RouterComponent";
 import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import service from '../../axios/Service';
@@ -101,7 +102,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                             service.post(
                                 '/login/loginByPhonePwd',
                                 Qs.stringify({
-                                    phone: '18302866040',
+                                    phone: '13348916944',
                                     password: '1234',
                                 }),
                             );
@@ -159,6 +160,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                             <BreadCrumb/>
                             <div className={classes.content}>
                                 <Switch>
+                                    <Redirect to={"/home"} path={"/"} exact={true}/>
                                     <Route<RouteProps> exact={true} path={"/home"} component={Home}/>
                                     <Route<RouteProps> path={"/bannerManage"} component={BannerManage}/>
                                     <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
@@ -170,6 +172,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/infoPushNew"} component={InfoPushNew}/>
                                     <Route<RouteProps> path={"/infoPushEditor/:id?"} component={InfoPushNew}/>
                                     <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement}/>
+                                    <Route<RouteProps> path={"/user/certification"} component={Certification}/>
                                     <Route<RouteProps>
                                         path={"/user/blacklist"}
                                         component={Blacklist}

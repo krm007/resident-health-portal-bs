@@ -14,7 +14,7 @@ const breadcrumbNameMap = {
     '/infoPushEditor':'编辑推送',
     '/infoPush/infoPushDetail':'推送详情',
     '/user': '用户管理',
-    '/user/realName':'实名认证',
+    '/user/certification':'实名认证',
     '/user/blacklist':'黑名单管理'
 };
 export  {breadcrumbNameMap}
