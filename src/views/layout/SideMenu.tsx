@@ -59,7 +59,7 @@ class SideMenu extends React.Component<Iprops, Istate> {
                     </Menu.Item>
                     <SubMenu key="appointment" title={
                         <span>
-                        <Icon type="inbox"/>
+                        <Icon type="tag"/>
                         <span>预约挂号管理</span>
                         </span>
                     }>
@@ -71,7 +71,7 @@ class SideMenu extends React.Component<Iprops, Istate> {
                     </SubMenu>
                     <SubMenu key="medicalLib" title={
                         <span>
-                        <Icon type="inbox"/>
+                        <Icon type="book"/>
                         <span>医疗资源字典</span>
                         </span>
                     }>
@@ -88,7 +88,7 @@ class SideMenu extends React.Component<Iprops, Istate> {
                     </SubMenu>
                     <Menu.Item key="infoPush">
                         <Link to={"/infoPush"}>
-                            <Icon type="info"/>
+                            <Icon type="message"/>
                             <span>信息推送</span>
                         </Link>
                     </Menu.Item>

@@ -39,7 +39,6 @@ interface Iprops extends WithStyles<typeof styles>,RouteComponentProps {
 }
 
 interface Istate {
-    selectedData: string[],
     currentIndex1: any,
     currentIndex2: any,
 }
@@ -53,7 +52,6 @@ class Filter extends React.Component<Iprops, Istate> {
     constructor(props: Iprops) {
         super(props);
         this.state = {
-            selectedData: [],
             currentIndex1: "",
             currentIndex2: "",
         };
@@ -62,31 +60,45 @@ class Filter extends React.Component<Iprops, Istate> {
     public componentWillMount() {
 
     }
-
-    public active1 = (e: any, index: any, key: string) => {
+    public resetActive(){
+        this.setState({
+            currentIndex1:"",
+            currentIndex2:""
+        })
+    }
+    public active1 = (e: any, index: any, val: string) => {
         // 获取元素 e.target
         // 获取文本 e.target.text
-        const key1 = [key];
-        this.setState({
-            currentIndex1: index,
-            selectedData: this.state.selectedData.concat(key1)
-        });
+        if(this.state.currentIndex1 === index){
+            this.resetActive();
+            this.props.handleScreen()
+        }else{
+            this.resetActive();
+            this.setState({
+                currentIndex1: index,
+            });
+            const params = {secondType:val};
+            this.props.handleScreen(params)
+        }
 
     };
-    public active2 = (e: any, index: any, key: any) => {
+    public active2 = (e: any, index: any, val: any) => {
         // 获取元素 e.target
-        // 获取文本 e.target.text
-        const key2 = [key];
-        this.setState({
-            currentIndex2: index,
-            selectedData: this.state.selectedData.concat(key2)
-        })
+        if(this.state.currentIndex2 === index){
+            this.resetActive();
+            this.props.handleScreen()
+        }else {
+            this.resetActive();
+            this.setState({
+                currentIndex2: index,
+            });
+            const params = {secondType: val};
+            this.props.handleScreen(params)
+        }
     };
     public handleSearch = (val: string) => {
-        const searchKey = [val];
-        this.setState({
-            selectedData: this.state.selectedData.concat(searchKey)
-        });
+        const params = {content:val};
+        this.props.handleScreen(params)
     };
     public addNew = () => {
         this.props.history.push(`/infoPushNew/`)

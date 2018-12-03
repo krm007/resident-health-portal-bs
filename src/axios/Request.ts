@@ -1,7 +1,7 @@
 import service from "./Service";
 import { RestPage } from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
-import { PushList, OneList, AddNews } from "../type/MessageData";
+import {PushList, OneList, News,  FilterArr} from "../type/MessageData";
 
 // 获取日志列表
 export function getLogList() {
@@ -47,16 +47,28 @@ export function getInfoPushList() {
   return service.get<RestPage<PushList>>("/news");
 }
 /*
- *
- * 获取一条推送列表*/
-export function getInfoOneList(id: any) {
-  return service.get<OneList>(`/news/${id}`);
+*
+* 获取一条推送列表*/
+export function getInfoOneList(id:any) {
+    return service.get<OneList>(`/news/${id}`,{
+      headers:{
+        "Cache-Control":"no-cache"
+      }
+    })
 }
 // 新增一条推送
-export function addNew(data: AddNews) {
-  return service.post("/news", data);
+export function addNews(data:News) {
+    return service.post("/news",data)
+}
+// 编辑一条推送
+export function editNews(data:News,id:any) {
+  return service.patch(`/news/${id}`,data)
 }
 // 删除一条推送
-export function delateNew(id: string) {
-  return service.delete(`/news/${id}`);
+export function delateNew(id:string) {
+  return service.delete(`/news/${id}`)
+}
+// 点击查询时根据筛选条件返回数据
+export function filterQuery(params:FilterArr) {
+    return service.get("/news/query",{params})
 }
