@@ -139,12 +139,12 @@ class DocDetails extends React.Component<Iprops, Istate> {
 
   /** 把onchange的参数转化为控件的值 */
   public normFile = (e: any) => {
-    console.log('Upload event:', e);
+    // console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
     return e && e.fileList;
-    // this.props.form.getFieldsValue();
+    this.props.form.getFieldsValue();
   };
 
   /** 删除经历 */
