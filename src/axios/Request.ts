@@ -1,7 +1,6 @@
 import service from "./Service";
 import { RestPage ,DicLib} from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
-import {DocDic,OneDoc} from "../type/DoctorData";
 import {HosDic} from "../type/HospitalData";
 import {PushList, OneList, News,  FilterArr} from "../type/MessageData";
 
@@ -26,19 +25,21 @@ export function getHosDic() {
 }
 
 /** 医生字典 */
-export function getDocDic() {
-  return service.get<DicLib<DocDic>>("/portalDoctors/query");
+export function getDocDic(params:any) {
+  return service.get("/portalDoctors/keywords",{params});
 }
-/** 医生新增和详情页面,获取一个医生的信息 停用医生 */
+/** 医生新增和详情页面,获取一个医生的信息 */
 export function getOneDoc(id:any) {
-    return service.get<OneDoc>(`/portalDoctors/${id}`);
+    return service.get(`/portalDoctors/${id}`);
 }
 /** 新增一条医生信息 */
 export function postForm(data:any) {
     return service.post(`/portalDoctors`,data);
 }
-
-
+/** 修改保存医生信息 */
+export function updateDoc(data:any,id:any) {
+    return service.patch(`/portalDoctors/${id}`,data)
+}
 /**
  * 获取号源
  */
