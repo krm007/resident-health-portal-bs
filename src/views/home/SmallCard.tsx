@@ -71,8 +71,8 @@ class SmallCard extends React.Component<Iprops> {
                    {/*renderItem={(item) => (*/}
                    {/*<List.Item column={24} style={{border: 0}}>*/}
                        <Card title={this.props.title} bordered={true} style={{width:"25vw"}} className={classes.cardStyle}>
-                           <div style={{display:"flex",justifyContent:"space-around",border:"1px red solid",}}>
-                               <div >
+                           <div style={{display:"flex",justifyContent:"space-around"}}>
+                               <div style={{lineHeight:"67px"}}>
                                    <img src={this.props.images} style={{width:"50px",height:"50px"}} alt=""/>
                                </div>
                                <div style={{width:"100px"}}>
