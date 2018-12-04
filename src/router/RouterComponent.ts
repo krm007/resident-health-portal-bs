@@ -29,3 +29,11 @@ export const DocDetails = loadable({
     loading: Loading,
     loader: () => import("../views/MedicalResource/DocDetails")
 });
+export const Certification = loadable({
+    loading: Loading,
+    loader: () => import("../views/user/Certification")
+});
+export const Verify = loadable({
+    loading: Loading,
+    loader: () => import("../views/user/CertificateList")
+});

@@ -2,10 +2,13 @@ import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import {Avatar, Icon, Menu} from 'antd';
 import * as React from "react";
-import {Link} from "react-router-dom";
-import logo from '../../logo.svg'
+import {Link, withRouter, RouteComponentProps} from "react-router-dom";
+import logo from '../../logo.svg';
+import { urlToList } from '../../_util/pathTool'
 
 const SubMenu = Menu.SubMenu;
+
+
 const styles = (theme: Theme) => createStyles<"menu" | "logoCard">({
     logoCard: {
         float: "left",
@@ -18,40 +21,68 @@ const styles = (theme: Theme) => createStyles<"menu" | "logoCard">({
     },
 });
 
-interface Iprops extends WithStyles<typeof styles> {
+interface Iprops extends WithStyles<typeof styles>, RouteComponentProps {
 }
 
 interface Istate {
-    collapsed: boolean
+    collapsed: boolean,
+    openKey:string,
+    current: string
 }
 
 class SideMenu extends React.Component<Iprops, Istate> {
     constructor(props: Iprops) {
         super(props);
         this.state = {
-            collapsed: false
+            collapsed: false,
+            openKey:"",
+            current: '/'
         }
+
+    }
+
+    public componentWillMount() {
+        const url = this.props.location.pathname;
+        const list = url.split('/')
+            .filter(i => i);// 去掉分割后的数组里面的空元素
+        if(list.length>1){
+            this.setState({
+                openKey:list[0]
+            })
+        }
+        const urlList = urlToList(url);
+        if(urlList.length === 0){
+            this.setState({
+                current:'/home'
+            })
+        }else{
+            this.setState({
+                current:urlList[urlList.length-1]
+            })
+        }
+
     }
 
     public render() {
         const {classes} = this.props;
+
         return (
             <div className={classes.menu}>
                 <Avatar src={logo} size={80}/>
                 <Menu
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
                     mode="inline"
                     theme="dark"
+                    defaultSelectedKeys={[this.state.current]}
+                    defaultOpenKeys={[this.state.openKey]}
                     inlineCollapsed={this.state.collapsed}
                 >
-                    <Menu.Item key="主页">
+                    <Menu.Item key="/home">
                         <Link to={"/home"}>
                             <Icon type="pie-chart"/>
                             <span>首页</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="banner">
+                    <Menu.Item key="/banner">
                         <Link to={"/bannerManage"}>
                             <Icon type="desktop"/>
                             <span>banner管理</span>
@@ -63,7 +94,7 @@ class SideMenu extends React.Component<Iprops, Istate> {
                         <span>预约挂号管理</span>
                         </span>
                     }>
-                        <Menu.Item key="number">
+                        <Menu.Item key="/appointment/number">
                             <Link to={"/appointment/number"}>
                                 <span>号源管理</span>
                             </Link>
@@ -75,18 +106,18 @@ class SideMenu extends React.Component<Iprops, Istate> {
                         <span>医疗资源字典</span>
                         </span>
                     }>
-                        <Menu.Item key="hospitalLib">
+                        <Menu.Item key="/medicalLib/hospitalLib">
                             <Link to={"/medicalLib/hospitalLib"}>
                                 <span>医院字典</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="doctor">
+                        <Menu.Item key="/medicalLib/doctorLib">
                             <Link to={"/medicalLib/doctorLib"}>
                                 <span>医生字典</span>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <Menu.Item key="infoPush">
+                    <Menu.Item key="/infoPush">
                         <Link to={"/infoPush"}>
                             <Icon type="message"/>
                             <span>信息推送</span>
@@ -98,12 +129,12 @@ class SideMenu extends React.Component<Iprops, Istate> {
                         <span>用户管理</span>
                         </span>
                     }>
-                        <Menu.Item key="realName">
-                            <Link to={"/user/realName"}>
+                        <Menu.Item key="/user/verify">
+                            <Link to={"/user/verify"}>
                                 <span>实名认证</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="blacklist">
+                        <Menu.Item key="/user/blacklist">
                             <Link to={"/user/blacklist"}>
                                 <span>黑名单管理</span>
                             </Link>
@@ -115,4 +146,4 @@ class SideMenu extends React.Component<Iprops, Istate> {
     }
 }
 
-export default withStyles(styles)(SideMenu);
+export default withRouter(withStyles(styles)(SideMenu));

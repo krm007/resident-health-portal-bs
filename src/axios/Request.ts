@@ -84,5 +84,9 @@ export function delateNew(id:string) {
 }
 // 点击查询时根据筛选条件返回数据
 export function filterQuery(params:FilterArr) {
-    return service.get("/news/query",{params})
+    return service.get("/news/keywords",{params})
+}
+// 查询认证列表
+export function getVerify() {
+    return service.get("/verifies")
 }
