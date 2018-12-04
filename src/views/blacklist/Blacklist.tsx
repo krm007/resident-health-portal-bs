@@ -7,6 +7,8 @@ import { BlacklistData } from "../../type/SourcesData";
 import { getBlacklist } from "../../axios/Request";
 import { ColumnProps } from "antd/lib/table";
 import RadioGroup from "antd/lib/radio/group";
+import service from "../../axios/Service";
+import * as qs from "qs";
 
 const styles = (theme: Theme) =>
   createStyles<"root" | "sss">({
@@ -23,7 +25,8 @@ interface Istates {
   data: BlacklistData[];
   blackStates: boolean;
   recordStates: boolean;
-  recordList:any[]
+  recordList: any[];
+  dateStop: number;
 }
 /**
  * 用户黑名单管理
@@ -59,12 +62,14 @@ class Blacklist extends React.Component<Iprops, Istates> {
           return (
             <span>
               <a
-                onClick={this.checkRecord.bind(this, record.id)}
+                onClick={this.checkRecord.bind(this, record.userId)}
                 style={{ marginRight: 10 }}
               >
                 违约记录
               </a>
-              <a onClick={this.addBlack.bind(this, record.id)}>加入黑名单</a>
+              <a onClick={this.addBlack.bind(this, record.userId)}>
+                加入黑名单
+              </a>
             </span>
           );
         } else {
@@ -73,23 +78,33 @@ class Blacklist extends React.Component<Iprops, Istates> {
       }
     }
   ];
+  private userId: string;
   constructor(props: Iprops) {
     super(props);
     this.state = {
       data: [],
       blackStates: false,
       recordStates: false,
-      recordList:[]
+      recordList: [],
+      dateStop: 30
     };
   }
   public checkRecord = (id: string) => {
     this.setState({
-      blackStates: true
+      recordStates: true
     });
+    service
+      .get(`/breakContractRecords/query`, { params: { userId: id } })
+      .then(value => {
+        this.setState({
+          recordList: value.data._embedded.breakContractRecords
+        });
+      });
   };
-  public addBlack = () => {
+  public addBlack = (userId: string) => {
+    this.userId = userId;
     this.setState({
-      recordStates: false
+      blackStates: true
     });
   };
   public UNSAFE_componentWillMount(): void {
@@ -105,6 +120,15 @@ class Blacklist extends React.Component<Iprops, Istates> {
   public searchData = (value: string) => {
     this.queryData.username = value;
     this.getData();
+  };
+  public addBlackList = () => {
+    service.post(
+      "/user/disableBlackList",
+      qs.stringify({ id: this.userId, dates: this.state.dateStop })
+    );
+    this.setState({
+      blackStates: false
+    });
   };
   public render() {
     const { getFieldDecorator } = this.props.form;
@@ -147,11 +171,7 @@ class Blacklist extends React.Component<Iprops, Istates> {
           visible={this.state.blackStates}
           title={"停用时间"}
           centered={true}
-          onOk={() => {
-            this.setState({
-              blackStates: false
-            });
-          }}
+          onOk={this.addBlackList}
           onCancel={() => {
             this.setState({
               blackStates: false
@@ -159,25 +179,47 @@ class Blacklist extends React.Component<Iprops, Istates> {
           }}
         >
           <div>
-            <RadioGroup>
-              <Radio value={1}>一个月</Radio>
-              <Radio value={3}>三个月</Radio>
-              <Radio value={6}>六个月</Radio>
-              <Radio value={12}>一年</Radio>
+            <RadioGroup
+              value={this.state.dateStop}
+              onChange={e => {
+                this.setState({
+                  dateStop: e.target.value
+                });
+              }}
+            >
+              <Radio value={30}>一个月</Radio>
+              <Radio value={90}>三个月</Radio>
+              <Radio value={180}>六个月</Radio>
+              <Radio value={360}>一年</Radio>
             </RadioGroup>
             <div style={{ color: "red" }}>
               "进入黑名单用户将不能使用预约挂号功能，其它功能照常使用"
             </div>
           </div>
         </Modal>
-        <Modal centered={true}>
+        <Modal
+          centered={true}
+          visible={this.state.recordStates}
+          title={"违约记录"}
+          onOk={() => {
+            this.setState({
+              recordStates: false
+            });
+          }}
+          onCancel={() => {
+            this.setState({
+              recordStates: false
+            });
+          }}
+        >
           {this.state.recordList.map((value, index) => {
-            return(
-                <div key={value.id}>
-                  <span>{}</span>
-                  <Divider/>
-                </div>
-            )
+            return (
+              <div key={value.id}>
+                <span style={{ marginRight: 20 }}>{value.date}</span>
+                <span>{value.info}</span>
+                <Divider />
+              </div>
+            );
           })}
         </Modal>
       </div>

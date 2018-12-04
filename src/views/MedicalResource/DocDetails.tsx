@@ -17,6 +17,7 @@ import { FormComponentProps } from "antd/lib/form";
 import TextArea from "antd/lib/input/TextArea";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { getOneDoc, postForm, updateDoc } from "../../axios/Request";
+import { UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 // import { UploadChangeParam } from "antd/lib/upload/interface";
 
 const FormItem = Form.Item;
@@ -33,7 +34,6 @@ const styles = (theme: Theme) =>
 interface Istate {
   previewVisible: any;
   previewImage: string;
-  // fileList: any[];
   oneDoc: any;
   initArray: any[];
   id: any;
@@ -47,21 +47,13 @@ interface Iprops
 let id = 0;
 // const imgArray:any=[];
 class DocDetails extends React.Component<Iprops, Istate> {
+  private fileList:UploadFile[] = [];
   constructor(props: Iprops) {
     super(props);
     this.state = {
       id: this.props.match.params.id,
       previewVisible: false,
       previewImage: "",
-      // fileList: [
-      //   {
-      //     uid: "-1",
-      //     name: "xxx.png",
-      //     status: "done",
-      //     url:
-      //       "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-      //   }
-      // ],
       oneDoc: {},
       initArray: []
     };
@@ -138,13 +130,19 @@ class DocDetails extends React.Component<Iprops, Istate> {
   // };
 
   /** 把onchange的参数转化为控件的值 */
-  public normFile = (e: any) => {
-    // console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
+  public normFile = (e: UploadChangeParam) => {
+    if (e.file.response) {
+      const file: UploadFile = {
+        url: e.file.response.imageUrl,
+        uid: e.file.uid,
+        size: e.file.size,
+        name: e.file.name,
+        type: e.file.type
+      };
+      this.fileList.push(file);
+      return this.fileList
     }
-    return e && e.fileList;
-    this.props.form.getFieldsValue();
+    return e.fileList;
   };
 
   /** 删除经历 */
@@ -415,19 +413,18 @@ class DocDetails extends React.Component<Iprops, Istate> {
             </Panel>
             <Panel header="医生风采" key="6" style={customPanelStyle}>
               <FormItem>
-                {getFieldDecorator("upload", {
+                {getFieldDecorator("images", {
                   valuePropName: "fileList",
-                  getValueFromEvent: this.normFile
+                  getValueFromEvent: this.normFile,
+                  initialValue: this.state.oneDoc.images
                 })(
-                  <div className="clearfix">
-                    <Upload
-                      action="/manage/upload?type=DOCTOR"
-                      listType="picture-card"
-                      onPreview={this.handlePreview}
-                    >
-                      {uploadButton}
-                    </Upload>
-                  </div>
+                  <Upload
+                    action="/manage/upload?type=DOCTOR"
+                    listType="picture-card"
+                    onRemove={file => {}}
+                  >
+                    {uploadButton}
+                  </Upload>
                 )}
               </FormItem>
             </Panel>
