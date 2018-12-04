@@ -6,12 +6,12 @@ import {ColumnProps} from "antd/lib/table";
 import {Col, Row, Table, Radio, Input} from "antd";
 import {getVerify} from "../../axios/Request";
 import {verifyList} from 'src/type/MessageData';
+import {RouteComponentProps} from "react-router";
 
 const styles = (theme: Theme) => createStyles<"CertificateList"|"search"|"boundery"|"listContent">({
     CertificateList: {},
     search: {
-        paddingTop: "5px",
-        paddingBottom: "6px"
+        paddingBottom: "15px"
     },
     boundery: {
         height: 10,
@@ -23,7 +23,7 @@ const styles = (theme: Theme) => createStyles<"CertificateList"|"search"|"bounde
     }
 });
 
-interface Iprops extends WithStyles<typeof styles> {
+interface Iprops extends WithStyles<typeof styles>,RouteComponentProps {
 }
 interface Istate {
     mode:string,
@@ -32,7 +32,7 @@ interface Istate {
 }
 class CertificateList extends React.Component<Iprops,Istate> {
     public tableSet: {};
-
+    // 认证列表表头
     private tableColumns: Array<ColumnProps<verifyList>> = [
         {
             title: '序号',
@@ -42,22 +42,27 @@ class CertificateList extends React.Component<Iprops,Istate> {
         }, {
             title: 'Name',
             dataIndex: 'title',
-            key: 'title',
-            render: (text: any) => <a href="javascript:;">{text}</a>,
+            key: 'userId',
+            render: (text: any,record:any) => <a href="javascript:;">{record.user.id}</a>,
+        },{
+            title: 'time',
+            dataIndex: 'title',
+            key: 'applicateTime',
+            render: (text: any,record:any) => <a href="javascript:;">{record.applicateTime}</a>
         }, {
             title: 'Action',
             width: 160,
             render: (text: any, record: any) => {
-                if (record.status === 0) {
+                if (record.state === 0) {
                     return (
                         <span>
-                            审核
+                            <a href="#" onClick={this.handleVerify.bind(this,record.id)}>审核</a>
                         </span>
                     )
-                } else if (record.status === 1) {
+                } else if (record.state === 1) {
                     return (
                         <span>
-                            审核
+                            <a href="#">已认证</a>
                         </span>
                     )
                 } else {
@@ -79,7 +84,7 @@ class CertificateList extends React.Component<Iprops,Istate> {
             };
             this.tableSet = {
                 size: "small",
-                showHeader: false,
+                showHeader: true,
                 bordered: false
             };
 
@@ -87,6 +92,7 @@ class CertificateList extends React.Component<Iprops,Istate> {
     public componentWillMount() {
         this.setInfo();
     }
+    // 获取数据函数
     public setInfo(){
         getVerify().then(value => {
             this.setState({
@@ -95,10 +101,17 @@ class CertificateList extends React.Component<Iprops,Istate> {
             })
         });
     };
+    // 点击搜索按钮
     public handleSearch = (val: string) => {
         const params = {content:val};
         console.log(params)
     };
+    // 点击审核按钮
+    public handleVerify=(id:any)=>{
+        console.log(id);
+        this.props.history.push(`/user/Certification/${id}`)
+    };
+    // 切换认证类型
     public handleModeChange = (e: any) => {
         const mode = e.target.value;
         this.setState({mode});
@@ -110,8 +123,8 @@ class CertificateList extends React.Component<Iprops,Istate> {
             <div className={classes.CertificateList}>
                 <div className={classes.search}>
                     <Search
-                        style={{width: 225, marginLeft: "14px", marginRight: "24px"}}
-                        placeholder="输入关键字"
+                        style={{width: 225}}
+                        placeholder="用户名称"
                         onSearch={(value:any) => this.handleSearch(value)}
                         enterButton={true}
                     />
@@ -125,8 +138,8 @@ class CertificateList extends React.Component<Iprops,Istate> {
                         <Col span={6} push={14} style={{textAlign: "right"}}>
                             <Radio.Group onChange={this.handleModeChange} value={this.state.mode}
                                          style={{marginBottom: 8}} size={"small"}>
-                                <Radio.Button value="已发布">已发布</Radio.Button>
-                                <Radio.Button value="未发布">未发布</Radio.Button>
+                                <Radio.Button value="已发布">已认证</Radio.Button>
+                                <Radio.Button value="未发布">未认证</Radio.Button>
                             </Radio.Group>
                         </Col>
                     </Row>
