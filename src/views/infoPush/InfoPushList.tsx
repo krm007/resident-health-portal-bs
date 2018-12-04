@@ -44,7 +44,8 @@ interface Iprops extends WithStyles<typeof styles>, RouteComponentProps {
 interface Istate {
     mode: string,
     selectedData: FilterArr,
-    infoList: PushList[]
+    infoList: PushList[],
+    loading:boolean
 }
 
 class InfoPushList extends React.Component<Iprops, Istate> {
@@ -105,7 +106,8 @@ class InfoPushList extends React.Component<Iprops, Istate> {
         this.state = {
             mode: "已发布",
             selectedData: {},
-            infoList: []
+            infoList: [],
+            loading:true
         };
         this.tableSet = {
             size: "small",
@@ -120,7 +122,8 @@ class InfoPushList extends React.Component<Iprops, Istate> {
     public setInfo(){
         getInfoPushList().then(value => {
             this.setState({
-                infoList: value.data._embedded.news
+                infoList: value.data._embedded.news,
+                loading:false
             })
         });
     }
@@ -174,7 +177,7 @@ class InfoPushList extends React.Component<Iprops, Istate> {
                             </Radio.Group>
                         </Col>
                     </Row>
-                    <Table {...this.tableSet} columns={this.tableColumns} dataSource={this.state.infoList} loading={true}/>
+                    <Table {...this.tableSet} columns={this.tableColumns} dataSource={this.state.infoList} loading={this.state.loading}/>
                 </div>
             </div>
         );
