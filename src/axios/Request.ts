@@ -9,7 +9,7 @@ import {PushList, OneList, News, FilterArr, verifyOneList} from "../type/Message
 export function getLogList() {
   // return service.get("");
   const data = [];
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i <100; i++) {
     data.push({
       id: 1,
       username: "康若曼",
@@ -20,9 +20,23 @@ export function getLogList() {
 }
 
 /** 医院字典 */
-export function getHosDic() {
-  return service.get<DicLib<HosDic>>("/hospitals");
+export function getHosDic(params:any) {
+  return service.get("/portalHospitals/keywords",{params});
 }
+/** 新增一条医院信息 */
+export function postHosForm(data:any) {
+    return service.post(`/portalHospitals`,data);
+}
+/** 医院新增和详情页面,获取一个医院的信息 */
+export function getOneHos(id:any) {
+    return service.get(`/portalHospitals/${id}`);
+}
+/** 修改保存医生信息 */
+export function updateHos(data:any,id:any) {
+    return service.patch(`/portalHospitals/${id}`,data);
+}
+
+/** ******************************************************** */
 
 /** 医生字典 */
 export function getDocDic(params:any) {
@@ -38,7 +52,7 @@ export function postForm(data:any) {
 }
 /** 修改保存医生信息 */
 export function updateDoc(data:any,id:any) {
-    return service.patch(`/portalDoctors/${id}`,data)
+    return service.patch(`/portalDoctors/${id}`,data);
 }
 /**
  * 获取号源

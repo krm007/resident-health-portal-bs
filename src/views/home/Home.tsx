@@ -34,13 +34,6 @@ const styles = (theme: Theme) => createStyles({
             backgroundColor: "rgb(242,123,118)"
         }
     },
-    // firstInfo: {
-    //     width: "100%",
-    //     height: "45px",
-    //     margin: "auto",
-    //     borderRadius: "3px",
-    //     backgroundColor: "rgb(69,138,182)",
-    // },
     secondCard: {
         width: "100%",
         height: "130px",
@@ -51,7 +44,7 @@ const styles = (theme: Theme) => createStyles({
         height: "50vh",
         margin: "auto",
         border: "1px solid rgb(241,241,241)",
-        overflowY: "scroll"
+        // overflowY: "scroll"
     }
 });
 
@@ -87,16 +80,6 @@ class Home extends React.Component<Iprops, Istate> {
         const {classes} = this.props;
         return (
             <div>
-                {/*<div className={classes.firstInfo}>*/}
-                {/*<Row type="flex" justify="start" align="middle"*/}
-                {/*style={{lineHeight: "45px", fontSize: "10px", color: "#fff"}}>*/}
-                {/*<Col span={4} offset={1}>网站总访问量：596,421</Col>*/}
-                {/*<Col span={4}>网站总预约量：135,778</Col>*/}
-                {/*<Col span={4}>昨日访问量：588</Col>*/}
-                {/*<Col span={4}>昨日预约量：371</Col>*/}
-                {/*</Row>*/}
-                {/*</div>*/}
-
                 <div className={classes.secondCard}>
                     <Spin spinning={this.state.loading}>
                         <Row type="flex" justify="space-between" align="middle" gutter={16}>
@@ -114,7 +97,7 @@ class Home extends React.Component<Iprops, Istate> {
                     </Spin>
                 </div>
                 <LineChart/>
-                <div><span style={{paddingLeft: "10px"}}>登录日志</span></div>
+                <div><span style={{paddingLeft: "10px",fontWeight:"bold"}}>登录日志</span></div>
                 <br/>
                 <div className={classes.thirdLog}>
                     <RegisterLog data={this.state.dataLog}/>

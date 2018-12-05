@@ -37,3 +37,11 @@ export const Verify = loadable({
     loading: Loading,
     loader: () => import("../views/user/CertificateList")
 });
+export const HospitalDictionary = loadable({
+    loading: Loading,
+    loader: () => import("../views/MedicalResource/HospitalDictionary")
+});
+export const HosDetails = loadable({
+    loading: Loading,
+    loader: () => import("../views/MedicalResource/HosDetails")
+});
