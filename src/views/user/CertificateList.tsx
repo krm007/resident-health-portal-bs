@@ -37,16 +37,16 @@ class CertificateList extends React.Component<Iprops,Istate> {
         {
             title: '序号',
             width: 80,
-            key: 'key',
+            key: 'id',
             render: (text, record, index) => `${index + 1}`
         }, {
             title: '用户',
-            dataIndex: 'title',
+            dataIndex: 'userId',
             key: 'userId',
-            render: (text: any,record:any) => <span>{record.user.id}</span>,
+            render: (text: any,record:any) => <span>{record.userId}</span>,
         },{
             title: '申请时间',
-            dataIndex: 'title',
+            dataIndex: 'applicateTime',
             key: 'applicateTime',
             render: (text: any,record:any) => <span>{record.applicateTime}</span>
         }, {
@@ -56,7 +56,7 @@ class CertificateList extends React.Component<Iprops,Istate> {
                 if (record.state === 0) {
                     return (
                         <span>
-                            <a href="javascript:void(0);" onClick={this.handleVerify.bind(this,record.id)}>审核</a>
+                            <a href="javascript:;" onClick={this.handleVerify.bind(this,record.id)}>审核</a>
                         </span>
                     )
                 } else if (record.state === 1) {
@@ -108,7 +108,7 @@ class CertificateList extends React.Component<Iprops,Istate> {
     };
     // 点击审核按钮
     public handleVerify=(id:any)=>{
-        this.props.history.push(`/user/Certification/${id}`)
+        this.props.history.push(`/user/certification/${id}`)
     };
     // 切换认证类型
     public handleModeChange = (e: any) => {

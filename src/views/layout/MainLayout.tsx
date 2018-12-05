@@ -174,7 +174,7 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/infoPushEditor/:id?"} component={InfoPushNew}/>
                                     <Route<RouteProps> path={"/appointment/number"} component={NosourceManagement}/>
                                     <Route<RouteProps> path={"/user/verify"} component={Verify}/>
-                                    <Route<RouteProps> path={"/user/Certification"} component={Certification}/>
+                                    <Route<RouteProps> path={"/user/certification/:id?"} component={Certification}/>
                                     <Route<RouteProps>
                                         path={"/user/blacklist"}
                                         component={Blacklist}

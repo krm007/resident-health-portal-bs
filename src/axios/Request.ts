@@ -2,7 +2,7 @@ import service from "./Service";
 import { RestPage ,DicLib} from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
 import {HosDic} from "../type/HospitalData";
-import {PushList, OneList, News,  FilterArr} from "../type/MessageData";
+import {PushList, OneList, News, FilterArr, verifyOneList} from "../type/MessageData";
 
 
 // 获取日志列表
@@ -94,4 +94,15 @@ export function getVerify() {
 // 获取首页统计数据
 export function getHomeStatics() {
     return service.get("/statistics/homepage")
+}
+
+// 获取一条认证信息
+
+export function getOneVerify(id:string) {
+    return service.get(`/verifies/${id}`)
+}
+
+// 数据进入审核
+    export function patchOneVerify(param:verifyOneList,id:any) {
+    return service.patch(`/verifies/${param.id}`,param)
 }

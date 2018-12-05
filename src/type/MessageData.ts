@@ -47,3 +47,20 @@ export interface verifyList {
     status?: number,
     updateTime?: string
 }
+// 查询一条认证信息
+export interface verifyOneList {
+    aboveUrl?: string,
+    applicateTime?: string,
+    belowUrl?: string,
+    createTime?: string,
+    defaultTimes?: string,
+    id?: string,
+    idCard?: string,
+    realName?: string,
+    state?: number,
+    status?: number,
+    updateTime?: string,
+    user?:any,
+    userId?: string,
+    verifyStatus?: string
+}

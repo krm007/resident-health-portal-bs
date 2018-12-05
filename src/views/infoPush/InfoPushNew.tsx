@@ -53,13 +53,11 @@ class InfoPushNew extends React.Component<Iprops, Istates> {
     }
 
     public componentWillMount = () => {
-            console.log(this.state.newId);
         if (this.state.newId) {// 有传值id
             getInfoOneList(this.state.newId).then(value => {
                 this.setState({
                     oneList: value.data
                 });
-                console.log(value.data)
             })
         }
     };
