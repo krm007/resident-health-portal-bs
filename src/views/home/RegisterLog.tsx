@@ -21,6 +21,12 @@ class RegisterLog extends React.Component<Iprops> {
         return (
             <div className={classes.root}>
                     <List
+                        pagination={{
+                            onChange: (page) => {
+                                console.log(page);
+                            },
+                            pageSize: 5,
+                        }}
                         dataSource={this.props.data}
                         renderItem={(item:LogList) => (
                             <List.Item key={item.id} style={{marginBottom:"5px"}}>

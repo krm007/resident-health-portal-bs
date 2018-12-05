@@ -8,7 +8,7 @@ import {PushList, OneList, News,  FilterArr} from "../type/MessageData";
 export function getLogList() {
   // return service.get("");
   const data = [];
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i <100; i++) {
     data.push({
       id: 1,
       username: "康若曼",
