@@ -36,27 +36,27 @@ class CertificateList extends React.Component<Iprops,Istate> {
     private tableColumns: Array<ColumnProps<verifyList>> = [
         {
             title: '序号',
-            width: 40,
+            width: 80,
             key: 'key',
             render: (text, record, index) => `${index + 1}`
         }, {
-            title: 'Name',
+            title: '用户',
             dataIndex: 'title',
             key: 'userId',
-            render: (text: any,record:any) => <a href="javascript:;">{record.user.id}</a>,
+            render: (text: any,record:any) => <span>{record.user.id}</span>,
         },{
-            title: 'time',
+            title: '申请时间',
             dataIndex: 'title',
             key: 'applicateTime',
-            render: (text: any,record:any) => <a href="javascript:;">{record.applicateTime}</a>
+            render: (text: any,record:any) => <span>{record.applicateTime}</span>
         }, {
-            title: 'Action',
+            title: '操作',
             width: 160,
             render: (text: any, record: any) => {
                 if (record.state === 0) {
                     return (
                         <span>
-                            <a href="#" onClick={this.handleVerify.bind(this,record.id)}>审核</a>
+                            <a href="javascript:void(0);" onClick={this.handleVerify.bind(this,record.id)}>审核</a>
                         </span>
                     )
                 } else if (record.state === 1) {
@@ -83,7 +83,7 @@ class CertificateList extends React.Component<Iprops,Istate> {
                 loading:true
             };
             this.tableSet = {
-                size: "small",
+                size:'middle',
                 showHeader: true,
                 bordered: false
             };
@@ -108,7 +108,6 @@ class CertificateList extends React.Component<Iprops,Istate> {
     };
     // 点击审核按钮
     public handleVerify=(id:any)=>{
-        console.log(id);
         this.props.history.push(`/user/Certification/${id}`)
     };
     // 切换认证类型
@@ -133,7 +132,7 @@ class CertificateList extends React.Component<Iprops,Istate> {
                 <div className={classes.listContent}>
                     <Row>
                         <Col span={4}>
-                            通知公告
+                            认证列表
                         </Col>
                         <Col span={6} push={14} style={{textAlign: "right"}}>
                             <Radio.Group onChange={this.handleModeChange} value={this.state.mode}
