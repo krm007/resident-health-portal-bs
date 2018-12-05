@@ -1,7 +1,6 @@
 import service from "./Service";
-import { RestPage ,DicLib} from "../type/CommonData";
+import { RestPage } from "../type/CommonData";
 import { BlacklistData, Sources } from "../type/SourcesData";
-import {HosDic} from "../type/HospitalData";
 import {PushList, OneList, News,  FilterArr} from "../type/MessageData";
 
 
@@ -20,9 +19,23 @@ export function getLogList() {
 }
 
 /** 医院字典 */
-export function getHosDic() {
-  return service.get<DicLib<HosDic>>("/hospitals");
+export function getHosDic(params:any) {
+  return service.get("/portalHospitals/keywords",{params});
 }
+/** 新增一条医院信息 */
+export function postHosForm(data:any) {
+    return service.post(`/portalHospitals`,data);
+}
+/** 医院新增和详情页面,获取一个医院的信息 */
+export function getOneHos(id:any) {
+    return service.get(`/portalHospitals/${id}`);
+}
+/** 修改保存医生信息 */
+export function updateHos(data:any,id:any) {
+    return service.patch(`/portalHospitals/${id}`,data);
+}
+
+/** ******************************************************** */
 
 /** 医生字典 */
 export function getDocDic(params:any) {
@@ -38,7 +51,7 @@ export function postForm(data:any) {
 }
 /** 修改保存医生信息 */
 export function updateDoc(data:any,id:any) {
-    return service.patch(`/portalDoctors/${id}`,data)
+    return service.patch(`/portalDoctors/${id}`,data);
 }
 /**
  * 获取号源

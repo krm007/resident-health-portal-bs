@@ -1,10 +1,11 @@
 import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 import { WithStyles } from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import {Input, Button, Table, Divider, Modal} from "antd";
+import {Input, Button, Table, Divider, Modal, Switch, message} from "antd";
 import { getHosDic } from "../../axios/Request";
 import { HosDic } from "../../type/HospitalData";
 import {Link} from "react-router-dom";
+import service from "../../axios/Service";
 
 const Search = Input.Search;
 
@@ -34,13 +35,37 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
   }
 
   public componentWillMount() {
-    getHosDic().then(value => {
-        // this.setState({
-        //     data:value.data._embedded
-        // })
-
-    });
+    this.getData({});
   }
+  /** 获取医院字典 */
+  public getData=(params:any)=>{
+      getHosDic(params).then(value => {
+          this.setState({
+              data:value.data._embedded.portalHospitals
+          })
+
+      });
+  };
+
+  /** 查询医院字典 */
+  public search=(value:any)=>{
+      this.getData({name_like:value,level_like:value,category_like:value,location_like:value,phone_like:value});
+  };
+
+  /** 停用医院 */
+  public preventHos=(params:any)=>{
+      if (params.status === 1) {
+          params.status = 0;
+          message.warning("已停用！");
+      } else {
+          params.status = 1;
+          message.success("启用成功！");
+      }
+      service.get(`/portalHospitals/${params.id}/changeStatus`,{params:{status:params.status}}).then(value => {
+          this.getData({});
+      })
+  }
+
     /** 点击批量导入 */
     public showModal=()=>{
         this.setState({
@@ -90,11 +115,14 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
       {
         title: "操作",
         key: "action",
-        render: () => (
+        render: (record:any) => (
           <span>
-            <a href="javascript:;">详情</a>
+            <Link to={`/hosDetails/${record.id}`}>详情</Link>
             <Divider type="vertical" />
-            <a href="javascript:;">停用</a>
+            <Switch checkedChildren="启用" unCheckedChildren="停用"
+                    defaultChecked={record.status === 1 ? true : false} onChange={() => {
+                this.preventHos(record)
+            }}/>
           </span>
         )
       }
@@ -106,7 +134,7 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
         <div style={{ width: "90%", height: "32px" }}>
           <Search
             placeholder="输入关键字"
-            onSearch={value => console.log(value)}
+            onSearch={this.search}
             enterButton={true}
             style={{ width: "27%", float: "left" }}
           />

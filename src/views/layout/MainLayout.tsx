@@ -16,12 +16,14 @@ import {
     DoctorsDictionary,
     DocDetails,
     Certification,
-    Verify
+    Verify,
+    HospitalDictionary,
+    HosDetails
 } from "../../router/RouterComponent";
-import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import service from '../../axios/Service';
 // @ts-ignore
 import Qs from 'qs'
+
 
 
 const {Header, Sider, Content} = Layout;
@@ -166,7 +168,8 @@ class MainLayout extends React.Component<Iprops, Istate> {
                                     <Route<RouteProps> path={"/bannerManage"} component={BannerManage}/>
                                     <Route<RouteProps> path={"/medicalLib/hospitalLib"} component={HospitalDictionary}/>
                                     <Route<RouteProps> path={"/medicalLib/doctorLib"} component={DoctorsDictionary}/>
-                                    {/*<Route<RouteProps> path={"/addHos"} component={AddHos}/>*/}
+                                    <Route<RouteProps> path={"/addHos"} component={HosDetails}/>
+                                    <Route<RouteProps> path={"/hosDetails/:id"} component={HosDetails}/>
                                     <Route<RouteProps> path={"/addDoc"} component={DocDetails}/>
                                     <Route<RouteProps> path={"/docDetails/:id"} component={DocDetails}/>
                                     <Route<RouteProps> path={"/infoPush"} component={InfoPush}/>
