@@ -43,8 +43,7 @@ const styles = (theme: Theme) => createStyles({
         "& .ant-list-item-content":{
             minWidth:0
         },
-        borderColor: "#b7e6ff",
-        borderRadius: 3,
+        borderRadius: 5,
         height:"130px"
     },
     cardIndex:{
@@ -53,7 +52,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Iprops extends WithStyles<typeof styles> {
-    // data:CardInfo[]
+    data:any,
     images:string,
     title:string,
     oneData:string,
@@ -61,6 +60,10 @@ interface Iprops extends WithStyles<typeof styles> {
 }
 
 class SmallCard extends React.Component<Iprops> {
+    constructor(props:Iprops){
+        super(props);
+
+    }
     public render() {
         const {classes} = this.props;
         return (
@@ -70,18 +73,18 @@ class SmallCard extends React.Component<Iprops> {
                    {/*dataSource={}*/}
                    {/*renderItem={(item) => (*/}
                    {/*<List.Item column={24} style={{border: 0}}>*/}
-                       <Card title={this.props.title} bordered={true} style={{width:"25vw"}} className={classes.cardStyle}>
+                       <Card title={this.props.title} bordered={false} style={{width:"25vw"}} className={classes.cardStyle}>
                            <div style={{display:"flex",justifyContent:"space-around"}}>
                                <div style={{lineHeight:"67px"}}>
                                    <img src={this.props.images} style={{width:"50px",height:"50px"}} alt=""/>
                                </div>
                                <div style={{width:"100px"}}>
-                                   <span className={classes.fontNum}>233,16</span>
+                                   <span className={classes.fontNum}>{this.props.data[0]}</span>
                                    <p className={classes.fontStyle}>{this.props.oneData}</p>
                                </div>
                                <div ><Hr/></div>
                                <div style={{width:"100px"}}>
-                                   <span className={classes.fontNum}>233,16</span>
+                                   <span className={classes.fontNum}>{this.props.data[1]}</span>
                                    <p className={classes.fontStyle}>{this.props.twoData}</p>
                                </div>
                            </div>

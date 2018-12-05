@@ -1,10 +1,10 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
-import {Row} from 'antd';
+import { Row, Spin} from 'antd';
 import * as React from "react";
 import SmallCard from "./SmallCard";
 import RegisterLog from "./RegisterLog";
-import {getLogList} from "../../axios/Request";
+import {getHomeStatics, getLogList} from "../../axios/Request";
 import LineChart from "./LineChart";
 
 
@@ -56,7 +56,9 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Istate {
-    dataLog: any
+    dataLog: any;
+    dataList: any;
+    loading: boolean
 }
 
 interface Iprops extends WithStyles<typeof styles> {
@@ -66,14 +68,20 @@ class Home extends React.Component<Iprops, Istate> {
     constructor(props: Iprops) {
         super(props);
         this.state = {
-            dataLog: getLogList()
+            dataLog: getLogList(),
+            dataList: {},
+            loading: true
         };
     }
 
-    public componentWillMount() {
-
+    public componentDidMount() {
+        getHomeStatics().then((value) => {
+            this.setState({
+                dataList: value.data,
+                loading: false
+            })
+        });
     }
-
 
     public render() {
         const {classes} = this.props;
@@ -88,15 +96,22 @@ class Home extends React.Component<Iprops, Istate> {
                 {/*<Col span={4}>昨日预约量：371</Col>*/}
                 {/*</Row>*/}
                 {/*</div>*/}
+
                 <div className={classes.secondCard}>
-                    <Row type="flex" justify="space-between" align="middle" gutter={16}>
-                        <SmallCard images={require("../../images/homeCardTwo.png")} title={"医疗资源"} oneData={"医院总数"}
-                                   twoData={"医生总数"} classes={{root: classes.homeOne}}/>
-                        <SmallCard images={require("../../images/homeCardOne.png")} title={"信息推送"} oneData={"推送总数"}
-                                   twoData={"昨日推送数"} classes={{root: classes.homeTwo}}/>
-                        <SmallCard images={require("../../images/homeCardThree.png")} title={"预约挂号"} oneData={"退号总数"}
-                                   twoData={"昨日退号数"} classes={{root: classes.homeThree}}/>
-                    </Row>
+                    <Spin spinning={this.state.loading}>
+                        <Row type="flex" justify="space-between" align="middle" gutter={16}>
+                            <SmallCard images={require("../../images/homeCardTwo.png")} title={"医疗资源"} oneData={"医院总数"}
+                                       twoData={"医生总数"} classes={{root: classes.homeOne}}
+                                       data={[this.state.dataList.hospitalNum,this.state.dataList.doctorNum]}/>
+                            <SmallCard images={require("../../images/homeCardOne.png")} title={"信息推送"} oneData={"推送总数"}
+                                       twoData={"昨日推送数"} classes={{root: classes.homeTwo}}
+                                       data={[this.state.dataList.newsNum,this.state.dataList.newsYesterdayNam]}/>
+                            <SmallCard images={require("../../images/homeCardThree.png")} title={"预约挂号"}
+                                       oneData={"退号总数"}
+                                       twoData={"昨日退号数"} classes={{root: classes.homeThree}}
+                                       data={[this.state.dataList.retreatNum,this.state.dataList.retreatYesterdayNum]}/>
+                        </Row>
+                    </Spin>
                 </div>
                 <LineChart/>
                 <div><span style={{paddingLeft: "10px"}}>登录日志</span></div>

@@ -103,3 +103,8 @@ export function filterQuery(params:FilterArr) {
 export function getVerify() {
     return service.get("/verifies")
 }
+
+// 获取首页统计数据
+export function getHomeStatics() {
+    return service.get("/statistics/homepage")
+}

@@ -6,12 +6,12 @@ import {ColumnProps} from "antd/lib/table";
 import {Col, Row, Table, Radio, Input} from "antd";
 import {getVerify} from "../../axios/Request";
 import {verifyList} from 'src/type/MessageData';
+import {RouteComponentProps} from "react-router";
 
 const styles = (theme: Theme) => createStyles<"CertificateList"|"search"|"boundery"|"listContent">({
     CertificateList: {},
     search: {
-        paddingTop: "5px",
-        paddingBottom: "6px"
+        paddingBottom: "15px"
     },
     boundery: {
         height: 10,
@@ -23,7 +23,7 @@ const styles = (theme: Theme) => createStyles<"CertificateList"|"search"|"bounde
     }
 });
 
-interface Iprops extends WithStyles<typeof styles> {
+interface Iprops extends WithStyles<typeof styles>,RouteComponentProps {
 }
 interface Istate {
     mode:string,
@@ -32,32 +32,37 @@ interface Istate {
 }
 class CertificateList extends React.Component<Iprops,Istate> {
     public tableSet: {};
-
+    // 认证列表表头
     private tableColumns: Array<ColumnProps<verifyList>> = [
         {
             title: '序号',
-            width: 40,
+            width: 80,
             key: 'key',
             render: (text, record, index) => `${index + 1}`
         }, {
-            title: 'Name',
+            title: '用户',
             dataIndex: 'title',
-            key: 'title',
-            render: (text: any) => <a href="javascript:;">{text}</a>,
+            key: 'userId',
+            render: (text: any,record:any) => <span>{record.user.id}</span>,
+        },{
+            title: '申请时间',
+            dataIndex: 'title',
+            key: 'applicateTime',
+            render: (text: any,record:any) => <span>{record.applicateTime}</span>
         }, {
-            title: 'Action',
+            title: '操作',
             width: 160,
             render: (text: any, record: any) => {
-                if (record.status === 0) {
+                if (record.state === 0) {
                     return (
                         <span>
-                            审核
+                            <a href="javascript:void(0);" onClick={this.handleVerify.bind(this,record.id)}>审核</a>
                         </span>
                     )
-                } else if (record.status === 1) {
+                } else if (record.state === 1) {
                     return (
                         <span>
-                            审核
+                            <a href="#">已认证</a>
                         </span>
                     )
                 } else {
@@ -78,8 +83,8 @@ class CertificateList extends React.Component<Iprops,Istate> {
                 loading:true
             };
             this.tableSet = {
-                size: "small",
-                showHeader: false,
+                size:'middle',
+                showHeader: true,
                 bordered: false
             };
 
@@ -87,6 +92,7 @@ class CertificateList extends React.Component<Iprops,Istate> {
     public componentWillMount() {
         this.setInfo();
     }
+    // 获取数据函数
     public setInfo(){
         getVerify().then(value => {
             this.setState({
@@ -95,10 +101,16 @@ class CertificateList extends React.Component<Iprops,Istate> {
             })
         });
     };
+    // 点击搜索按钮
     public handleSearch = (val: string) => {
         const params = {content:val};
         console.log(params)
     };
+    // 点击审核按钮
+    public handleVerify=(id:any)=>{
+        this.props.history.push(`/user/Certification/${id}`)
+    };
+    // 切换认证类型
     public handleModeChange = (e: any) => {
         const mode = e.target.value;
         this.setState({mode});
@@ -110,8 +122,8 @@ class CertificateList extends React.Component<Iprops,Istate> {
             <div className={classes.CertificateList}>
                 <div className={classes.search}>
                     <Search
-                        style={{width: 225, marginLeft: "14px", marginRight: "24px"}}
-                        placeholder="输入关键字"
+                        style={{width: 225}}
+                        placeholder="用户名称"
                         onSearch={(value:any) => this.handleSearch(value)}
                         enterButton={true}
                     />
@@ -120,13 +132,13 @@ class CertificateList extends React.Component<Iprops,Istate> {
                 <div className={classes.listContent}>
                     <Row>
                         <Col span={4}>
-                            通知公告
+                            认证列表
                         </Col>
                         <Col span={6} push={14} style={{textAlign: "right"}}>
                             <Radio.Group onChange={this.handleModeChange} value={this.state.mode}
                                          style={{marginBottom: 8}} size={"small"}>
-                                <Radio.Button value="已发布">已发布</Radio.Button>
-                                <Radio.Button value="未发布">未发布</Radio.Button>
+                                <Radio.Button value="已发布">已认证</Radio.Button>
+                                <Radio.Button value="未发布">未认证</Radio.Button>
                             </Radio.Group>
                         </Col>
                     </Row>
