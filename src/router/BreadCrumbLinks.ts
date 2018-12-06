@@ -6,6 +6,7 @@ const breadcrumbNameMap = {
     '/medicalLib': '医疗资源字典',
     '/medicalLib/hospitalLib':'医院字典',
     '/addHos':'新增医院字典',
+    '/hosDetails':'医院字典 / 医院详情',
     '/medicalLib/doctorLib':'医生字典',
     '/addDoc':'新增医生字典',
     '/docDetails':'医生字典 / 医生详情',

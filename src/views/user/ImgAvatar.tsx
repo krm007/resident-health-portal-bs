@@ -17,11 +17,11 @@ function getBase64(img: any, callback: any) {
 function beforeUpload(file: any) {
     const isPNG = file.type === 'image/png';
     if (!isPNG) {
-        message.error('You can only upload JPG file!');
+        message.error('暂时仅支持png格式图片!');
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+        message.error('图片大小不要超过2MB!');
     }
     return isPNG && isLt2M;
 }
@@ -79,11 +79,11 @@ class ImgAvatar extends React.Component<Iprops> {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action="//jsonplaceholder.typicode.com/posts/"
+                action={"/manage/upload?type=PERSON"}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
             >
-                {imageUrl ? <img src={imageUrl} alt="avatar" style={{width: '100%', height: '130px'}}/> : uploadButton}
+                {imageUrl ? <img src={imageUrl} alt="avatar"/> : uploadButton}
             </Upload>
         );
     }
