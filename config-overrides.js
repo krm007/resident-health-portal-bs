@@ -8,11 +8,11 @@ const rewireLess = require("react-app-rewire-less");
  */
 module.exports = function override(config, env) {
   const tsLoader = getLoader(
-      config.module.rules,
-      rule =>
-          rule.loader &&
-          typeof rule.loader === "string" &&
-          rule.loader.includes("ts-loader")
+    config.module.rules,
+    rule =>
+      rule.loader &&
+      typeof rule.loader === "string" &&
+      rule.loader.includes("ts-loader")
   );
 
   tsLoader.options = {
@@ -51,7 +51,14 @@ module.exports = function override(config, env) {
 
   config = rewireLess.withLoaderOptions({
     javascriptEnabled: true,
-    modifyVars: {"@primary-color": "#3c8ed9","@table-header-bg":"#3c8ed9","@table-header-color":"#ffffff"}
+    modifyVars: {
+      "@layout-header-background":"#253555",
+      "@menu-dark-bg": "#253555",
+      "@menu-dark-submenu-bg": "#253555",
+      "@primary-color": "#3c8ed9",
+      "@table-header-bg": "#3c8ed9",
+      "@table-header-color": "#ffffff"
+    }
   })(config, env);
   return config;
 };

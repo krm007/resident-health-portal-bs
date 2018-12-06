@@ -17,7 +17,6 @@ const styles = (theme: Theme) => createStyles<"menu" | "logoCard">({
     },
     menu: {
         height: "100vh",
-
     },
 });
 

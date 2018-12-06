@@ -7,10 +7,9 @@ import {breadcrumbNameMap} from '../../router/BreadCrumbLinks';
 
 const styles = (theme: Theme) => createStyles<"root">({
     root: {
-        background: '#fff',
+        background: '#f0f2f5',
         height: '40px',
         padding: 10,
-
     }
 });
 
