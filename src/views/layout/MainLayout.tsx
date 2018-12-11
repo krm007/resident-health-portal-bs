@@ -51,9 +51,7 @@ const styles = (theme: Theme) =>
       },
       background: "#253555",
       height: "55px",
-      padding: 0,
-      display: "flex",
-      alignItems: "center"
+      padding: 0
     },
     userbox: {
       width: "20vw",

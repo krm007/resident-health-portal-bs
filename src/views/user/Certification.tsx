@@ -1,13 +1,13 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
-import {Col, Form, Input, Modal, Row} from 'antd'
+import {Col, Form, Input, Modal, Row, message} from 'antd'
 import Button from "antd/lib/button/button";
 import {FormComponentProps} from "antd/lib/form";
 import * as React from "react";
 import {RouteComponentProps} from "react-router";
-// import Face from '../../images/userCenter/idCardFace.png';
-import {getOneVerify,
-         patchOneVerify
+import {
+    getOneVerify,
+    patchOneVerify
 } from "../../axios/Request";
 import {verifyOneList} from "../../type/MessageData";
 
@@ -72,7 +72,8 @@ class Certification extends React.Component<Iprops, Istates> {
     };
 
     // 否决
-    public handleVeto = () => {
+    public handleVeto = (e: any) => {
+
         console.log("否决")
     };
     // 点击图片触发upload
@@ -82,16 +83,13 @@ class Certification extends React.Component<Iprops, Istates> {
         e.preventDefault();
         this.state.fileList.state = 2;
         this.setState({
-            fileList:this.state.fileList
-        }, ()=>{
+            fileList: this.state.fileList
+        }, () => {
 
-            patchOneVerify(this.state.fileList,this.state.fileList.id).then((value) => {
-
+            patchOneVerify(this.state.fileList, this.state.fileList.id).then((value) => {
+                message.success("审核已通过，审核状态待更新~")
             });
         });
-
-
-
 
     };
 

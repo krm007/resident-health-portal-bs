@@ -3,7 +3,7 @@ import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
 import {ColumnProps} from "antd/lib/table";
 
-import {Col, Row, Table, Radio, Input} from "antd";
+import {Col, Row, Table, Radio, Input, Divider} from "antd";
 import {getVerify} from "../../axios/Request";
 import {verifyList} from 'src/type/MessageData';
 import {RouteComponentProps} from "react-router";
@@ -56,19 +56,29 @@ class CertificateList extends React.Component<Iprops,Istate> {
                 if (record.state === 0) {
                     return (
                         <span>
+                            <span>已提交资料</span>
+                            <Divider type="vertical"/>
                             <a href="javascript:;" onClick={this.handleVerify.bind(this,record.id)}>审核</a>
                         </span>
                     )
                 } else if (record.state === 1) {
                     return (
                         <span>
-                            <a href="#">已认证</a>
+                            <span>已认证</span>
+                            <Divider type="vertical"/>
+                            <a href="javascript:;" onClick={this.handleVerify.bind(this,record.id)}>去审核</a>
                         </span>
                     )
-                } else {
+                } else if(record.state === 2){
                     return (
                         <span>
-                            未知状态
+                            <span>审核通过</span>
+                        </span>
+                    )
+                }else{
+                    return (
+                        <span>
+                            审核未通过
                         </span>
                     )
                 }
