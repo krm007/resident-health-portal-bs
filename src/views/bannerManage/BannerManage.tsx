@@ -24,7 +24,7 @@ class BannerManage extends React.Component<Iprops> {
             });
           }}
         >
-          请求
+          请求你好
         </Button>
       </div>
     );
