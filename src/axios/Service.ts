@@ -3,7 +3,8 @@ import Axios from "axios";
 import createHashHistory from "history/createHashHistory";
 
 const service = Axios.create({
-  timeout: 15000
+  timeout: 15000,
+  baseURL:"/api"
 });
 
 /**
