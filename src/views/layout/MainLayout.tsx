@@ -16,9 +16,10 @@ import {
   DoctorsDictionary,
   DocDetails,
   Certification,
-  Verify
+  Verify,
+  HospitalDictionary,
+  HosDetails
 } from "../../router/RouterComponent";
-import HospitalDictionary from "../MedicalResource/HospitalDictionary";
 import service from "../../axios/Service";
 // @ts-ignore
 import Qs from "qs";
@@ -33,8 +34,7 @@ const styles = (theme: Theme) =>
       minHeight: 480,
       padding: 14,
       overflowY: "auto",
-      height: "82vh",
-      borderRadius: 10
+      height: "82vh"
     },
     header: {
       "& .trigger": {
@@ -49,8 +49,8 @@ const styles = (theme: Theme) =>
       "& .ant-badge": {
         marginRight: "20px"
       },
-      background: "#253555",
-      height: "55px",
+      background: "#458AB6",
+      height: "45px",
       padding: 0
     },
     userbox: {
@@ -180,13 +180,26 @@ class MainLayout extends React.Component<Iprops, Istate> {
                     path={"/medicalLib/doctorLib"}
                     component={DoctorsDictionary}
                   />
-                  {/*<Route<RouteProps> path={"/addHos"} component={AddHos}/>*/}
-                  <Route<RouteProps> path={"/addDoc"} component={DocDetails} />
+                  <Route<RouteProps>
+                    path={"/addHos"}
+                    component={HosDetails}
+                  />
+                  <Route<RouteProps>
+                    path={"/hosDetails/:id"}
+                    component={HosDetails}
+                  />
+                  <Route<RouteProps>
+                    path={"/addDoc"}
+                    component={DocDetails}
+                  />
                   <Route<RouteProps>
                     path={"/docDetails/:id"}
                     component={DocDetails}
                   />
-                  <Route<RouteProps> path={"/infoPush"} component={InfoPush} />
+                  <Route<RouteProps>
+                    path={"/infoPush"}
+                    component={InfoPush}
+                  />
                   <Route<RouteProps>
                     path={"/infoPushNew"}
                     component={InfoPushNew}
