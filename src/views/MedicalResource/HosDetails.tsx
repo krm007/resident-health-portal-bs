@@ -157,6 +157,7 @@ class HosDetails extends React.Component<Iprops, Istate> {
   };
 
   public deleteImg = (file: UploadFile) => {
+    this.fileList = this.fileList.filter(value => value.url !== file.url);
     return true;
   };
 
