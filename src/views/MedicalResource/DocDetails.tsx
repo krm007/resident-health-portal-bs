@@ -47,7 +47,7 @@ interface Iprops
 let id = 0;
 // const imgArray:any=[];
 class DocDetails extends React.Component<Iprops, Istate> {
-  private fileList:UploadFile[] = [];
+  private fileList: UploadFile[] = [];
   constructor(props: Iprops) {
     super(props);
     this.state = {
@@ -63,19 +63,27 @@ class DocDetails extends React.Component<Iprops, Istate> {
     if (this.state.id) {
       /** 详情回显 */
       getOneDoc(this.state.id).then(value => {
-        // console.log(value.data.detail);
-        const arrayB = value.data.detail.experienceDetails;
-        const arrayA: any[] = [];
-        if (arrayB) {
-          for (let i = 0; i < arrayB.length; i++) {
-            arrayA.push(i);
+        if (value.data.detail) {
+            /** 图片回显 */
+          if (value.data.detail.images) {
+            this.fileList = value.data.detail.images;
           }
+            /** 早年经历回显 */
+          const arrayB = value.data.detail.experienceDetails;
+            console.log(arrayB);
+          const arrayA: any[] = [];
+          if (arrayB) {
+            for (let i = 0; i < arrayB.length; i++) {
+              arrayA.push(i);
+            }
+            console.log(arrayA);
+          }
+          this.props.form.setFields({ keys: arrayA });
+          this.setState({
+            initArray: arrayA,
+            oneDoc: value.data.detail
+          });
         }
-        this.props.form.setFields({ keys: arrayA });
-        this.setState({
-          initArray: arrayA,
-          oneDoc: value.data.detail
-        });
       });
     }
   }
@@ -97,7 +105,8 @@ class DocDetails extends React.Component<Iprops, Istate> {
 
   /** 修改保存 */
   public updateInfo = (params: any) => {
-    const updateData = this.props.form.getFieldsValue();
+    const updateData: any = this.props.form.getFieldsValue();
+    updateData.detail = this.props.form.getFieldsValue();
     if (this.state.id) {
       updateDoc(updateData, this.state.id).then(value => {
         message.success("修改成功！");
@@ -106,28 +115,16 @@ class DocDetails extends React.Component<Iprops, Istate> {
     }
   };
 
-  /** 删除上传图片 */
+  /** 关闭预览 */
   public handleCancel = () => this.setState({ previewVisible: false });
 
-  /** 文件预览 */
+  /** 图片预览 */
   public handlePreview = (file: any) => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true
     });
   };
-  /** 上传文件 */
-  // public handleChange = (file: UploadChangeParam) => {
-  //   this.setState({ fileList: file.fileList });
-  //   if(file.file.response){
-  //       // console.log(file.file.response.imageUrl);
-  //       imgArray.push(file.file.response.imageUrl);
-  //       console.log(imgArray);
-  //       this.props.form.getFieldValue("imgFiles")
-  //   }
-  //
-  //
-  // };
 
   /** 把onchange的参数转化为控件的值 */
   public normFile = (e: UploadChangeParam) => {
@@ -140,9 +137,15 @@ class DocDetails extends React.Component<Iprops, Istate> {
         type: e.file.type
       };
       this.fileList.push(file);
-      return this.fileList
+      return this.fileList;
     }
     return e.fileList;
+  };
+
+  /** 删除图片 */
+  public deleteImg = (file: UploadFile) => {
+    this.fileList = this.fileList.filter(value => value.url !== file.url);
+    return true;
   };
 
   /** 删除经历 */
@@ -381,7 +384,7 @@ class DocDetails extends React.Component<Iprops, Istate> {
                   <FormItem labelCol={{ span: 1 }} wrapperCol={{ span: 23 }}>
                     {getFieldDecorator("workDirection", {
                       initialValue: this.state.oneDoc.workDirection,
-                      rules: [{ required: true, message: "请输入工作方向" }]
+                      rules: [{ required: false, message: "请输入工作方向" }]
                     })(<TextArea placeholder="工作方向..." />)}
                   </FormItem>
                 </Col>
@@ -393,7 +396,7 @@ class DocDetails extends React.Component<Iprops, Istate> {
                   <FormItem labelCol={{ span: 1 }} wrapperCol={{ span: 23 }}>
                     {getFieldDecorator("careerExperience", {
                       initialValue: this.state.oneDoc.careerExperience,
-                      rules: [{ required: true, message: "请输入从业经历" }]
+                      rules: [{ required: false, message: "请输入从业经历" }]
                     })(<TextArea placeholder="从业经历..." />)}
                   </FormItem>
                 </Col>
@@ -405,7 +408,7 @@ class DocDetails extends React.Component<Iprops, Istate> {
                   <FormItem labelCol={{ span: 1 }} wrapperCol={{ span: 23 }}>
                     {getFieldDecorator("honorary", {
                       initialValue: this.state.oneDoc.honorary,
-                      rules: [{ required: true, message: "请输入荣誉奖项" }]
+                      rules: [{ required: false, message: "请输入荣誉奖项" }]
                     })(<TextArea placeholder="荣誉奖项..." />)}
                   </FormItem>
                 </Col>

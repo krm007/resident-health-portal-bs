@@ -114,7 +114,7 @@ class DoctorsDictionary extends React.Component<Iprops, Istate> {
                     <Link to={`/docDetails/${record.id}`}>详情</Link>
                     <Divider type="vertical"/>
                     <Switch checkedChildren="启用" unCheckedChildren="停用"
-                            defaultChecked={record.status === 1 ? true : false} onChange={() => {
+                            checked={record.status === 1 ? true : false} onChange={() => {
                         this.preventDoc(record)
                     }}/>
                 </span>

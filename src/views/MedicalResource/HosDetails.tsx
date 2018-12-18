@@ -61,18 +61,25 @@ class HosDetails extends React.Component<Iprops, Istate> {
       /** 详情回显 */
       getOneHos(this.state.id).then(value => {
         // console.log(value.data.detail);
-        const arrayC = value.data.detail.specialUnits;
-        const arrayA: any[] = [];
-        if (arrayC) {
-          for (let i = 0; i < arrayC.length; i++) {
-            arrayA.push(i);
+        if (value.data.detail) {
+          /** 图片回显 */
+          if (value.data.detail.images) {
+            this.fileList = value.data.detail.images;
           }
+          /** 特色科室回显 */
+          const arrayC = value.data.detail.specialUnits;
+          const arrayA: any[] = [];
+          if (arrayC) {
+            for (let i = 0; i < arrayC.length; i++) {
+              arrayA.push(i);
+            }
+          }
+          this.props.form.setFields({ keys: arrayA });
+          this.setState({
+            initArray: arrayA,
+            oneHos: value.data.detail
+          });
         }
-        this.props.form.setFields({ keys: arrayA });
-        this.setState({
-          initArray: arrayA,
-          oneHos: value.data.detail
-        });
       });
     }
   }
@@ -94,7 +101,8 @@ class HosDetails extends React.Component<Iprops, Istate> {
 
   /** 修改保存 */
   public updateInfo = (params: any) => {
-    const updateData = this.props.form.getFieldsValue();
+    const updateData: any = this.props.form.getFieldsValue();
+    updateData.detail = this.props.form.getFieldsValue();
     if (this.state.id) {
       updateHos(updateData, this.state.id).then(value => {
         message.success("修改成功！");
@@ -103,10 +111,10 @@ class HosDetails extends React.Component<Iprops, Istate> {
     }
   };
 
-  /** 删除上传图片 */
+  /** 关闭预览 */
   public handleCancel = () => this.setState({ previewVisible: false });
 
-  /** 文件预览 */
+  /** 图片预览 */
   public handlePreview = (file: any) => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
@@ -128,6 +136,12 @@ class HosDetails extends React.Component<Iprops, Istate> {
       return this.fileList;
     }
     return e.fileList;
+  };
+
+  /** 删除图片 */
+  public deleteImg = (file: UploadFile) => {
+    this.fileList = this.fileList.filter(value => value.url !== file.url);
+    return true;
   };
 
   /** 删除特色科室 */
@@ -154,11 +168,6 @@ class HosDetails extends React.Component<Iprops, Istate> {
       keys: nextKeys
     });
     // console.log(keys);
-  };
-
-  public deleteImg = (file: UploadFile) => {
-    this.fileList = this.fileList.filter(value => value.url !== file.url);
-    return true;
   };
 
   public render() {
@@ -396,7 +405,7 @@ class HosDetails extends React.Component<Iprops, Istate> {
                   <FormItem labelCol={{ span: 1 }} wrapperCol={{ span: 23 }}>
                     {getFieldDecorator("medicineTeam", {
                       initialValue: this.state.oneHos.medicineTeam,
-                      rules: [{ required: true, message: "请输入医护团队" }]
+                      rules: [{ required: false, message: "请输入医护团队" }]
                     })(<TextArea placeholder="医护团队..." />)}
                   </FormItem>
                 </Col>
