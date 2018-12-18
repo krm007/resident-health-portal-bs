@@ -18,8 +18,9 @@ import {
     Certification,
     Verify,
     HospitalDictionary,
-    HosDetails
+    HosDetails,
 } from "../../router/RouterComponent";
+
 
 
 

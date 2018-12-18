@@ -6,14 +6,14 @@ import {
     LOGIN,
     LOGOUT
 } from "../ActionTypes";
-// 登陆
+// 登陆或登出
 const loginOrLogoutReducer = handleActions<any>(
     {
         [LOGIN]: (state, action: AnyAction) => {
             return state.set("user", fromJS(action.payload));
         },
-        [LOGOUT]:(state,action:AnyAction)=>{
-            return state.set("user",fromJS({}))
+        [LOGOUT]: (state, action: AnyAction) => {
+            return state.set("user", fromJS({}))
         }
     },
     fromJS({user: {}})// 设置初始值

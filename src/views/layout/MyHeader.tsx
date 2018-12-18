@@ -1,13 +1,18 @@
 import {createStyles, Theme, withStyles} from '@material-ui/core/styles';
 import {WithStyles} from "@material-ui/core/styles/withStyles";
 import * as React from "react";
-import { Avatar, Badge, Button, Dropdown, Icon, Layout,Menu} from "antd";
-import service from "../../axios/Service";
-import headIcon from "../../images/head.png";
+import {Avatar, Badge, Dropdown, Icon, Layout, Menu} from "antd";
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {login} from "../../redux/action/Actions";
+import {logOut} from "../../_util/auth";
+import {userData} from "../../type/UserInfoData";
 // @ts-ignore
 import Qs from "qs";
-const { Header} = Layout;
-const styles = (theme: Theme) => createStyles<"header"|"userbox">({
+import {Link} from 'react-router-dom';
+
+const {Header} = Layout;
+const styles = (theme: Theme) => createStyles<"header" | "userbox" | "avator" | "phone">({
     header: {
         "& .trigger": {
             color: "#fff",
@@ -28,76 +33,64 @@ const styles = (theme: Theme) => createStyles<"header"|"userbox">({
     userbox: {
         width: "20vw",
         float: "right",
-        lineHeight: "50px",
+        lineHeight: "45px",
         textAlign: "right",
-        paddingRight: "20px"
+        paddingRight: "30px",
+        "& .anticon": {
+            verticalAlign: "middle"
+        }
+    },
+    avator: {},
+    phone:{
+        marginLeft:"5px",
+        verticalAlign:"middle",
+        color:"#fff"
     }
 });
 
 interface Iprops extends WithStyles<typeof styles> {
-    collapsed:boolean,
-    toggle: () => void;
+    user: userData,
+    toggle: () => void,
+    login: () => void,
+    collapsed: any
 
 }
+
 interface Istates {
-    user:string | null;
+    phone: string | null;
 }
-class MyHeader extends React.Component<Iprops,Istates> {
-    constructor(props:Iprops){
+
+class MyHeader extends React.Component<Iprops, Istates> {
+    constructor(props: Iprops) {
         super(props);
-        this.state={
-            user:window.localStorage.getItem("user")
+        this.state = {
+            phone: window.localStorage.getItem("phone")
         }
     }
+
+    public UNSAFE_componentWillMount(): void {
+        this.props.login()
+    }
+
     public render() {
         const {classes} = this.props;
         // 用户头像下拉选项
         const menu = (
             <Menu>
-                <Menu.Item>
-                    <p
-                        onClick={event1 => {
-                            service.post(
-                                "/login/loginByPhonePwd",
-                                Qs.stringify({
-                                    phone: "13348916944",
-                                    password: "1234"
-                                })
-                            ).then(() => {
-                                // this.setState({
-                                //     user:
-                                // })
-                            });
-                        }}
-                    >
-                        登陆
-                    </p>
-                </Menu.Item>
+                {
+                    this.state.phone ? (
+                        <Menu.Item>
+                            <Link to={"/login"}>退出</Link>
+                        </Menu.Item>
+                    ) : (
+                        <Menu.Item>
+                            <Link to={"/login"}>登陆</Link>
+                        </Menu.Item>
+                    )
+                }
             </Menu>
         );
-        const hasLogined = (
-            <div>
-        <span style={{lineHeight: "45px"}}>
-          <Badge>
-            <Icon
-                type="wechat"
-                style={{fontSize: "20px", color: "#f0f0f0"}}
-            />
-          </Badge>
-          <Badge count={0}>
-            <Icon type="mail" style={{fontSize: "20px", color: "#f0f0f0"}}/>
-          </Badge>
-        </span>
-                <Dropdown overlay={menu}>
-                    <Avatar src={headIcon}/>
-                </Dropdown>
-            </div>
-        );
-        const noLogined = (
-            <Button htmlType={"button"} type="primary">
-                登陆
-            </Button>
-        );
+
         return (
             <Header className={classes.header}>
                 <Icon
@@ -105,10 +98,52 @@ class MyHeader extends React.Component<Iprops,Istates> {
                     type={this.props.collapsed ? "menu-unfold" : "menu-fold"}
                     onClick={this.props.toggle}
                 />
-                <div className={classes.userbox}>{this.state.user ? hasLogined : noLogined}</div>
+                <div className={classes.userbox}>
+                    <span style={{lineHeight: "45px"}}>
+                      <Badge>
+                        <Icon
+                            type="wechat"
+                            style={{fontSize: "22px", color: "#f0f0f0"}}
+                        />
+                      </Badge>
+                      <Badge count={0}>
+                        <Icon type="mail" style={{fontSize: "22px", color: "#f0f0f0"}}/>
+                      </Badge>
+                    </span>
+                    <Dropdown overlay={menu} className={classes.avator}>
+                        <Avatar
+                            size={"default"}
+                            icon={"user"}
+                            src={"/api" + this.props.user.avatarUrl}
+                        />
+                    </Dropdown>
+                    <span className={classes.phone}>
+                        {this.state.phone ? this.state.phone : "未登录"}
+                    </span>
+                </div>
             </Header>
         );
     }
 }
 
-export default withStyles(styles)(MyHeader);
+const mapStateToProps = (state: any) => {
+    return {
+        user: state
+            .get("loginOrLogoutReducer") // state.get(XXX)为redux-immutatble内置函数用于获取reducers内部的reducer或store中的数据
+            .get("user")
+            .toJS()
+    }
+};
+const mapDispatchToProps = ({} = (dispatch: any, ownProps: any) => {
+    return bindActionCreators(
+        {
+            login,
+            logOut
+        },
+        dispatch
+    )
+});
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(MyHeader));
