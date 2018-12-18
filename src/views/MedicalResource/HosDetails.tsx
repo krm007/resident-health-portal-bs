@@ -17,8 +17,8 @@ import { FormComponentProps } from "antd/lib/form";
 import { Link, RouteComponentProps } from "react-router-dom";
 import TextArea from "antd/lib/input/TextArea";
 import { getOneHos, postHosForm, updateHos } from "../../axios/Request";
-import {UploadChangeParam} from "antd/lib/upload";
-import {UploadFile} from "antd/lib/upload/interface";
+import { UploadChangeParam } from "antd/lib/upload";
+import { UploadFile } from "antd/lib/upload/interface";
 
 const FormItem = Form.Item;
 const Panel = Collapse.Panel;
@@ -44,7 +44,7 @@ interface Iprops
 
 let id = 0;
 class HosDetails extends React.Component<Iprops, Istate> {
-    private fileList:UploadFile[] = [];
+  private fileList: UploadFile[] = [];
   constructor(props: Iprops) {
     super(props);
     this.state = {
@@ -71,7 +71,7 @@ class HosDetails extends React.Component<Iprops, Istate> {
         this.props.form.setFields({ keys: arrayA });
         this.setState({
           initArray: arrayA,
-            oneHos: value.data.detail
+          oneHos: value.data.detail
         });
       });
     }
@@ -116,18 +116,18 @@ class HosDetails extends React.Component<Iprops, Istate> {
 
   /** 把onchange的参数转化为控件的值 */
   public normFile = (e: UploadChangeParam) => {
-      if (e.file.response) {
-          const file: UploadFile = {
-              url: e.file.response.imageUrl,
-              uid: e.file.uid,
-              size: e.file.size,
-              name: e.file.name,
-              type: e.file.type
-          };
-          this.fileList.push(file);
-          return this.fileList
-      }
-      return e.fileList;
+    if (e.file.response) {
+      const file: UploadFile = {
+        url: e.file.response.imageUrl,
+        uid: e.file.uid,
+        size: e.file.size,
+        name: e.file.name,
+        type: e.file.type
+      };
+      this.fileList.push(file);
+      return this.fileList;
+    }
+    return e.fileList;
   };
 
   /** 删除特色科室 */
@@ -148,12 +148,16 @@ class HosDetails extends React.Component<Iprops, Istate> {
     const keys = form.getFieldValue("keys");
     const nextKeys = keys.concat(id++);
     this.setState({
-        oneHos: { specialUnits: Array(nextKeys.size) }
+      oneHos: { specialUnits: Array(nextKeys.size) }
     });
     form.setFieldsValue({
       keys: nextKeys
     });
     // console.log(keys);
+  };
+
+  public deleteImg = (file: UploadFile) => {
+    return true;
   };
 
   public render() {
@@ -363,10 +367,18 @@ class HosDetails extends React.Component<Iprops, Istate> {
               </Row>
             </Panel>
             <Panel header="支付账户" key="2" style={customPanelStyle}>
-                <Row type="flex" justify="space-around">
-                    <Col span={4}><img src={require("../../images/hospitalDetail/QRCode.png")}/></Col>
-                    <Col span={4}><img src={require("../../images/hospitalDetail/QRCode.png")}/></Col>
-                </Row>
+              <Row type="flex" justify="space-around">
+                <Col span={4}>
+                  <img
+                    src={require("../../images/hospitalDetail/QRCode.png")}
+                  />
+                </Col>
+                <Col span={4}>
+                  <img
+                    src={require("../../images/hospitalDetail/QRCode.png")}
+                  />
+                </Col>
+              </Row>
             </Panel>
             <Panel header="特色科室" key="3" style={customPanelStyle}>
               {formItems}
@@ -396,14 +408,14 @@ class HosDetails extends React.Component<Iprops, Istate> {
                   getValueFromEvent: this.normFile,
                   initialValue: this.state.oneHos.images
                 })(
-                    <Upload
-                      action="/manage/upload?type=HOSPITAL"
-                      listType="picture-card"
-                      onRemove={file => {}}
-                      onPreview={this.handlePreview}
-                    >
-                      {uploadButton}
-                    </Upload>
+                  <Upload
+                    action="/manage/upload?type=HOSPITAL"
+                    listType="picture-card"
+                    onRemove={this.deleteImg}
+                    onPreview={this.handlePreview}
+                  >
+                    {uploadButton}
+                  </Upload>
                 )}
               </FormItem>
             </Panel>
