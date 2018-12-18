@@ -68,8 +68,8 @@
       },
       "changeOrigin": true
     },
-    "/socket": {
-      "target": "http://localhost:8802",
+    "/manage": {
+      "target": "http://192.168.15.216:8082",
       "changeOrigin": true
     }
   }
