@@ -62,7 +62,11 @@ class HosDetails extends React.Component<Iprops, Istate> {
       getOneHos(this.state.id).then(value => {
         // console.log(value.data.detail);
         if (value.data.detail) {
-          this.fileList = value.data.detail.images;
+          /** 图片回显 */
+          if (value.data.detail.images) {
+            this.fileList = value.data.detail.images;
+          }
+          /** 特色科室回显 */
           const arrayC = value.data.detail.specialUnits;
           const arrayA: any[] = [];
           if (arrayC) {

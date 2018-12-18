@@ -134,7 +134,7 @@ class HospitalDictionary extends React.Component<Iprops, Istate> {
               <Switch
                 checkedChildren="启用"
                 unCheckedChildren="停用"
-                defaultChecked={record.status === 1 ? true : false}
+                checked={record.status === 1 ? true : false}
                 onChange={() => {
                   this.preventHos(record);
                 }}

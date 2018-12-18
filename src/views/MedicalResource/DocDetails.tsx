@@ -64,14 +64,19 @@ class DocDetails extends React.Component<Iprops, Istate> {
       /** 详情回显 */
       getOneDoc(this.state.id).then(value => {
         if (value.data.detail) {
-          // console.log(value.data.detail);
-          this.fileList = value.data.detail.images;
+            /** 图片回显 */
+          if (value.data.detail.images) {
+            this.fileList = value.data.detail.images;
+          }
+            /** 早年经历回显 */
           const arrayB = value.data.detail.experienceDetails;
+            console.log(arrayB);
           const arrayA: any[] = [];
           if (arrayB) {
             for (let i = 0; i < arrayB.length; i++) {
               arrayA.push(i);
             }
+            console.log(arrayA);
           }
           this.props.form.setFields({ keys: arrayA });
           this.setState({
@@ -100,8 +105,8 @@ class DocDetails extends React.Component<Iprops, Istate> {
 
   /** 修改保存 */
   public updateInfo = (params: any) => {
-    const updateData:any = this.props.form.getFieldsValue();
-      updateData.detail = this.props.form.getFieldsValue();
+    const updateData: any = this.props.form.getFieldsValue();
+    updateData.detail = this.props.form.getFieldsValue();
     if (this.state.id) {
       updateDoc(updateData, this.state.id).then(value => {
         message.success("修改成功！");
